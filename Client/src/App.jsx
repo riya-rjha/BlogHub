@@ -10,7 +10,7 @@ import Write from "./Pages/Write";
 
 const App = () => {
   return (
-    <>
+    <div className="relative z-10">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/register" element={<Register />}></Route>
       </Routes>
       <Footer />
-    </>
+    </div>
   );
 };
 
