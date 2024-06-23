@@ -9,7 +9,7 @@ const Navbar = () => {
         <div className="relative  flex items-center justify-between h-24">
           {/* Left side logo */}
           <div className="flex items-center">
-            <img className="h-16 rounded-full" src={logo} alt="Logo" />
+            <img className="h-16 rounded-full logo" src={logo} alt="Logo" />
           </div>
 
           {/* Center links */}
@@ -36,19 +36,19 @@ const Navbar = () => {
                 </a>
                 <a
                   href="#"
-                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline"
+                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline hide-links"
                 >
                   Cinema
                 </a>
                 <a
                   href="#"
-                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline      "
+                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline   hide-links    "
                 >
                   Design
                 </a>
                 <a
                   href="#"
-                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline"
+                  className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline hide-links"
                 >
                   Food
                 </a>

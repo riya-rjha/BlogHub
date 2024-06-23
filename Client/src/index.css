@@ -12,6 +12,19 @@ textarea {
   min-height: 390px;
 }
 
+@media (max-width: 840px) and (min-width: 645px) {
+  .hide-links {
+    display: none;
+  }
+}
+
+@media (max-width: 930px) and (min-width: 850px) {
+  .logo {
+    display: none;
+  }
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
