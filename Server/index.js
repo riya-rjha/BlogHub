@@ -1,6 +1,9 @@
 import express from "express";
 import "dotenv/config";
 import postRouter from "./Routes/post.js";
+import mongoose from "mongoose";
+import userRouter from "./Routes/auth.js";
+import cors from 'cors';
 
 // Create an instance of express
 const app = express();
@@ -8,10 +11,28 @@ const app = express();
 // Parse Middleware Requests
 app.use(express.json());
 
-// Setting up User Routes
+// Setup CORS
+//  "proxy":http//localhost:8800/api -> Enable cors through Client/package.json
+app.use(cors());
+
+// Setting up Blog Routes
 app.use("/post", postRouter);
 
-// Start Server
-app.listen(process.env.PORT, () => {
-  console.log(`App is listening to PORT ${process.env.PORT}`);
-});
+// Setting up User authentication Route
+app.use("/auth", userRouter);
+
+const connectToDatabase = async () => {
+  try {
+    await mongoose.connect(process.env.mongoDBURL);
+    // Start Server
+    app.listen(process.env.PORT, () => {
+      console.log(`App is listening to PORT ${process.env.PORT}`);
+    });
+    console.log("Successfully connected to database");
+  } catch (error) {
+    console.log(error.message);
+    process.exit(1); // To exit ongoing Node.js process
+  }
+};
+
+connectToDatabase();

@@ -14,3 +14,5 @@ JWT is used to authenticate users by generating a private key for each and that 
 
 Bcrypt Hashing uses a salt variable to hash passwords given number of times so that it will be difficult for the attackers to get access to the passwords. It stores passwords in a secure manner.
 
+8. Import userModel to connect in authorization & check for existing user. If user exists, then use Bcrypt to hash the password & if not then create a new user. 
+
