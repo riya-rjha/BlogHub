@@ -15,8 +15,8 @@ const Single = () => {
               <p className="text-gray-600">Written on June 23, 2024</p>
             </div>
             <div className="ml-auto flex items-center">
-              <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer" />
-              <FaTrash className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer" />
+              <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
+              <FaTrash className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
             </div>
           </div>
           <h1 className="text-4xl font-bold mb-4">Blog Title</h1>
