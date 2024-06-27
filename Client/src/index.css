@@ -12,6 +12,15 @@ textarea {
   min-height: 390px;
 }
 
+.acc {
+  border-radius: 5px;
+  padding: 6px;
+  background-color: rgb(66, 66, 66);
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
 @media (max-width: 840px) and (min-width: 645px) {
   .hide-links {
     display: none;
@@ -24,6 +33,11 @@ textarea {
   }
 }
 
+@media (max-width: 380px) {
+  .logo {
+    display: none;
+  }
+}
 
 @tailwind base;
 @tailwind components;

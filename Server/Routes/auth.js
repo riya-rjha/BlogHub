@@ -65,7 +65,7 @@ userRouter.post("/logout", (req, res) => {
       secure: true, // cookie to be used with HTTPS only
     })
     .status(202)
-    .json("User has been logged out!");
+    .json("User has been logged out!"); 
 });
 
 export default userRouter;

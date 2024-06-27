@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {baseURL} from '../Components/ServerURL';
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -25,7 +26,6 @@ const Register = () => {
       await axios.post(`${baseURL}/auth/register`, inputs);
       navigate("/login");
     } catch (error) {
-      console.log("User already exists!");
       toast.error("User already exists!");
     }
   };
@@ -95,12 +95,12 @@ const Register = () => {
         </form>
         <p className="mt-2 text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a
-            href="#"
+          <Link
+            to="/login"
             className="font-medium text-indigo-600 hover:text-indigo-500 hover:underline"
           >
             Log in here
-          </a>
+          </Link>
         </p>
       </div>
     </div>

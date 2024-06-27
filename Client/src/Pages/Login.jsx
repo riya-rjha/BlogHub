@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { baseURL } from "../Components/ServerURL";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { AuthorizationContext } from "../Context/authContext";
 
 const Login = () => {
+  const { login } = useContext(AuthorizationContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,10 +22,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${baseURL}/auth/login`, inputs);
+      await login(inputs);
       navigate("/");
     } catch (error) {
-      console.log(error.message);
       toast.error("Check username and password again!");
     }
   };
@@ -59,16 +60,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="flex items-center justify-between">
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
+        
           <div>
             <button
               type="submit"
