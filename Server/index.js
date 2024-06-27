@@ -13,17 +13,17 @@ const app = express();
 app.use(express.json());
 
 // Setup CORS
-//  "proxy":http//localhost:8800/api -> Enable cors through Client/package.json
+// "proxy":http//localhost:8800/api -> Enable cors through Client/package.json
 app.use(cors());
+
+// Use cookie parser to parse cookies from incoming requests
+app.use(cookieParser());
 
 // Setting up Blog Routes
 app.use("/post", postRouter);
 
 // Setting up User authentication Route
 app.use("/auth", userRouter);
-
-// Use cookie parser to parse cookies from incoming requests
-app.use(cookieParser());
 
 const connectToDatabase = async () => {
   try {

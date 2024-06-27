@@ -21,6 +21,13 @@ textarea {
   font-weight: bold;
 }
 
+.blog-container {
+  background: #f3f3f3ae;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 8px;
+}
+
 @media (max-width: 840px) and (min-width: 645px) {
   .hide-links {
     display: none;
