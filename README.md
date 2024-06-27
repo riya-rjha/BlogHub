@@ -104,6 +104,7 @@ The client side is built with Vite and React. The main packages used are:
 - `react-toastify`
 - `axios`
 - `tailwindcss`
+- `react-context`
 
 ### Server
 
