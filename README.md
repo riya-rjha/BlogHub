@@ -1,7 +1,5 @@
 # Full-Stack Blog Application
 
-# Full Stack Blog App
-
 ## Table of Contents
 
 - [About the Project](#project)
