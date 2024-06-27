@@ -4,6 +4,7 @@ import postRouter from "./Routes/post.js";
 import mongoose from "mongoose";
 import userRouter from "./Routes/auth.js";
 import cors from 'cors';
+import cookieParser from "cookie-parser";
 
 // Create an instance of express
 const app = express();
@@ -20,6 +21,9 @@ app.use("/post", postRouter);
 
 // Setting up User authentication Route
 app.use("/auth", userRouter);
+
+// Use cookie parser to parse cookies from incoming requests
+app.use(cookieParser());
 
 const connectToDatabase = async () => {
   try {
