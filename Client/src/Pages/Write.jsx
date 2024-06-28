@@ -49,7 +49,7 @@ const Write = () => {
             <button className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded">
               Upload Image
             </button>
-            <input type="file" name="" id="" className="mt-4" />
+            <input type="file" name="img-blog" id="" className="mt-4" />
             <div className="flex mt-4">
               <button className="hover:bg-gray-700 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded">
                 Save as Draft

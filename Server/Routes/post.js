@@ -3,10 +3,23 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
+
 const postRouter = express.Router();
 
+const filestorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/tmp/my-uploads')
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  }
+})
+
+const upload = multer({ storage: filestorage })
+
 // Post a blog
-postRouter.post("/", async (req, res) => {
+postRouter.post("/", upload.single('img-blog'),async (req, res) => {
   const token = req.cookies.access_token;
   if (!token) return res.json("Authenticate first!");
   jwt.verify(token, process.env.jwt_secretKey, async (err, userData) => {
@@ -15,6 +28,7 @@ postRouter.post("/", async (req, res) => {
       const newBlog = new blogModel({
         ...req.body,
         uid: userData.id,
+        
       });
       newBlog.save();
       return res.status(202).json("Blog created successfully!");
@@ -23,6 +37,8 @@ postRouter.post("/", async (req, res) => {
     }
   });
 });
+
+
 
 // Get all blogs
 postRouter.get("/", async (req, res) => {
