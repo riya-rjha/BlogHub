@@ -2,43 +2,27 @@ import express from "express";
 import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import multer from "multer";
-import path from "path";
 
 const postRouter = express.Router();
 
-// Multer Setup
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve(`../Images`));
-  },
-  filename: function (req, file, cb) {
-    const filename = `${Date.now()}-${file.originalname}`;
-    cb(null, filename);
-  },
-});
-
-const upload = multer({ storage: storage });
-
 // Post a blog
-postRouter.post("/", upload.single("img-blog"), async (req, res) => {
+postRouter.post("/", async (req, res) => {
   const token = req.cookies.access_token;
-  if (!token) return res.json("Authenticate first!");
+  if (!token) return res.status(401).json({ error: "Authenticate first!" });
+
   jwt.verify(token, process.env.jwt_secretKey, async (err, userData) => {
     try {
-      if (err) return res.json("Invalid token");
+      if (err) return res.status(403).json({ error: "Invalid token" });
+
       const newBlog = new blogModel({
-        title: req.body.title,
-        desc: req.body.desc,
-        img: req.file ? "../Images" + req.file.filename : "",
-        cat: req.body.cat,
-        date: new Date(),
+        ...req.body,
         uid: userData.id,
       });
-      await newBlog.save(); // Await saving the blog to ensure it completes before responding
-      return res.status(202).json("Blog created successfully!");
+
+      await newBlog.save();
+      return res.status(201).json({ message: "Blog created successfully!" });
     } catch (error) {
-      return res.status(500).json(error);
+      return res.status(500).json({ error: error.message });
     }
   });
 });
@@ -52,17 +36,69 @@ postRouter.get("/", async (req, res) => {
       : await blogModel.find();
     return res.status(200).json(data);
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ error: error.message });
   }
 });
 
 // Get single blog
-postRouter.get("/:id", () => {});
+postRouter.get("/:id", async (req, res) => {
+  try {
+    const getSinglePost = await blogModel.findById(req.params.id);
+    if (!getSinglePost) {
+      return res.status(404).json({ error: "Post not found!" });
+    }
+    return res.status(200).json(getSinglePost);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
 
 // Delete a blog
-postRouter.delete("/:id", () => {});
+postRouter.delete("/:id", async (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json({ error: "Authenticate first!" });
+
+  jwt.verify(token, process.env.jwt_secretKey, async (err, userData) => {
+    try {
+      if (err) return res.status(403).json({ error: "Token is invalid!" });
+
+      const deletedPost = await blogModel.findOneAndDelete({
+        _id: req.params.id,
+        uid: userData.id,
+      });
+      if (!deletedPost) {
+        return res.status(404).json({ error: "You can delete only your post!" });
+      }
+      return res.status(200).json({ message: "Post successfully deleted!" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  });
+});
 
 // Update a blog
-postRouter.put("/:id", () => {});
+postRouter.put("/:id", async (req, res) => {
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json({ error: "Authenticate first!" });
+
+  jwt.verify(token, process.env.jwt_secretKey, async (err, userData) => {
+    if (err) return res.status(403).json({ error: "Token is invalid!" });
+
+    try {
+      const updatedPost = await blogModel.findOneAndUpdate(
+        { _id: req.params.id, uid: userData.id },
+        req.body,
+        { new: true }
+      );
+
+      if (!updatedPost) {
+        return res.status(404).json({ error: "You can update only your post!" });
+      }
+      return res.status(200).json({ message: "Post successfully updated!", data: updatedPost });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  });
+});
 
 export default postRouter;

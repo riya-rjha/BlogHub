@@ -5,7 +5,7 @@ import { SiHashnode } from "react-icons/si";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6 mt-8 w-full">
+    <footer className="bg-gray-800 text-white py-6 mt-8 w-full absolute -bottom-[25vh]">
       <div className="container mx-auto px-6 w-full">
         <div className="flex flex-col md:flex-row justify-between items-center w-full">
           <div className="flex-1 text-center md:text-left mb-4 md:mb-0 w-full md:w-auto">

@@ -3,7 +3,7 @@ import "dotenv/config";
 import postRouter from "./Routes/post.js";
 import mongoose from "mongoose";
 import userRouter from "./Routes/auth.js";
-import cors from 'cors';
+import cors from "cors";
 import cookieParser from "cookie-parser";
 
 // Create an instance of express
@@ -13,7 +13,7 @@ const app = express();
 app.use(express.json());
 
 // Setup CORS
-// "proxy":http//localhost:8800/api -> Enable cors through Client/package.json
+// "proxy":http//localhost:8000/api -> Enable cors through Client/package.json
 app.use(cors());
 
 // Use cookie parser to parse cookies from incoming requests
