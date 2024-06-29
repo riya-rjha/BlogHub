@@ -22,7 +22,9 @@ const Navbar = () => {
         <div className="relative  flex items-center justify-between h-24">
           {/* Left side logo */}
           <div className="flex items-center">
-            <img className="h-16 rounded-full logo" src={logo} alt="Logo" />
+            <Link to="/">
+              <img className="h-16 rounded-full logo" src={logo} alt="Logo" />
+            </Link>
           </div>
 
           {/* Center links */}
