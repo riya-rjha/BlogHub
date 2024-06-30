@@ -7,6 +7,7 @@ import Single from "./Pages/Single";
 import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import Write from "./Pages/Write";
+import EditBlog from './Pages/EditBlog';
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/write" element={<Write />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path='/edit' element={<EditBlog/>}></Route>
       </Routes>
       <Footer />
     </div>
