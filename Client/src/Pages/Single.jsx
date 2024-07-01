@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import moment from "moment";
+import Menu from "../Components/Menu";
 
 const Single = () => {
   const [post, setPost] = useState({}); // used {} as we are talking about every single blog post that has multiple fields
@@ -57,7 +58,8 @@ const Single = () => {
             <div>
               <p className="font-black text-xl">Writer</p>
               <p className="text-gray-600 capitalize">
-                <span className="font-bold">Date:</span> {moment(post.date).fromNow()}
+                <span className="font-bold">Date:</span>{" "}
+                {moment(post.date).fromNow()}
               </p>
             </div>
             <div className="ml-auto flex items-center">
@@ -73,30 +75,9 @@ const Single = () => {
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
           <p className="text-gray-700 mb-4">{post.desc}</p>
         </div>
+        {/* Recommended Posts */}
         <div className="right-section md:w-1/2 p-4">
-          <h3 className="text-4xl font-bold mb-4">Other posts you may like</h3>
-          <div className="other-post mb-6">
-            <img
-              src="https://via.placeholder.com/200"
-              alt="post"
-              className="w-full rounded shadow-lg mb-2"
-            />
-            <h4 className="font-bold text-lg mb-2">Post Title</h4>
-            <button className="px-4 py-2 bg-orange-500 text-white rounded">
-              Read More
-            </button>
-          </div>
-          <div className="other-post">
-            <img
-              src="https://via.placeholder.com/200"
-              alt="post"
-              className="w-full rounded shadow-lg mb-2"
-            />
-            <h4 className="font-bold text-lg mb-2">Post Title</h4>
-            <button className="px-4 py-2 bg-orange-500 text-white rounded">
-              Read More
-            </button>
-          </div>
+          <Menu cat={post.cat} id_post={id_post} />
         </div>
       </div>
     </div>
