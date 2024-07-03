@@ -50,7 +50,7 @@ userRouter.post("/login", async (req, res) => {
     res
       .cookie("access_token", token, {
         httpOnly: true, // Cookie can be accessed only by web server & not JS Console
-      })
+    })
       .status(200)
       .json(props); // returns everything except user's password
   } catch (error) {

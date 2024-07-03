@@ -32,8 +32,7 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${baseURL}/post/${id_post}`);
-      console.log(response);
+      await axios.delete(`${baseURL}/post/${id_post}`);
       navigate("/");
     } catch (error) {
       toast.error("You can delete only your blog!");

@@ -12,12 +12,12 @@ const app = express();
 // Parse Middleware Requests
 app.use(express.json());
 
+// Use cookie parser to parse cookies from incoming requests
+app.use(cookieParser());
+
 // Setup CORS
 // "proxy":http//localhost:8000/api -> Enable cors through Client/package.json
 app.use(cors());
-
-// Use cookie parser to parse cookies from incoming requests
-app.use(cookieParser());
 
 // Setting up Blog Routes
 app.use("/post", postRouter);
