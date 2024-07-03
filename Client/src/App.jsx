@@ -8,6 +8,7 @@ import Register from "./Pages/Register";
 import Login from "./Pages/Login";
 import Write from "./Pages/Write";
 import EditBlog from './Pages/EditBlog';
+import PageNotFound from "./Components/PageNotFound";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path='/edit' element={<EditBlog/>}></Route>
+        <Route path='*' element={<PageNotFound/>}></Route>
       </Routes>
       <Footer />
     </div>
