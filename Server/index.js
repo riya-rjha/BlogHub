@@ -9,11 +9,11 @@ import cookieParser from "cookie-parser";
 // Create an instance of express
 const app = express();
 
-// Parse Middleware Requests
-app.use(express.json());
-
 // Use cookie parser to parse cookies from incoming requests
 app.use(cookieParser());
+
+// Parse Middleware Requests
+app.use(express.json());
 
 // Setup CORS
 // "proxy":http//localhost:8000/api -> Enable cors through Client/package.json

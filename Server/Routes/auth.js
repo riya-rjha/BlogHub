@@ -42,7 +42,9 @@ userRouter.post("/login", async (req, res) => {
     if (!checkPwd) {
       return res.json(401).json("Wrong username or password!");
     }
-    const token = jwt.sign({ id: user._id }, process.env.jwt_secretKey);
+    const token = jwt.sign({ id: user._id }, process.env.jwt_secretKey, {
+      expiresIn: "1d",
+    });
     // , {expiresIn: '1h'} - expiration time if specified
 
     const { password: pwd, ...props } = user; // password stored in pwd in hashed format
@@ -50,9 +52,11 @@ userRouter.post("/login", async (req, res) => {
     res
       .cookie("access_token", token, {
         httpOnly: true, // Cookie can be accessed only by web server & not JS Console
-    })
+      })
       .status(200)
-      .json(props); // returns everything except user's password
+      .json({
+        username: user.username
+      }); // returns everything except user's password
   } catch (error) {
     return res.status(500).json(error);
   }
@@ -65,7 +69,7 @@ userRouter.post("/logout", (req, res) => {
       secure: true, // cookie to be used with HTTPS only
     })
     .status(202)
-    .json("User has been logged out!"); 
+    .json("User has been logged out!");
 });
 
 export default userRouter;

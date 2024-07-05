@@ -22,8 +22,8 @@ const Navbar = () => {
         <div className="relative  flex items-center justify-between h-24">
           {/* Left side logo */}
           <div className="flex items-center">
-            <Link to='/'>
-            <img className="h-16 rounded-full logo" src={logo} alt="Logo" />
+            <Link to="/">
+              <img className="h-16 rounded-full logo" src={logo} alt="Logo" />
             </Link>
           </div>
 
@@ -79,7 +79,11 @@ const Navbar = () => {
                     <div className="bg-gray-300 rounded-full p-1">
                       <MdAccountCircle className="text-gray-800 text-2xl" />
                     </div>
-                    <h1>{currentUser._doc.username}</h1>
+                    {currentUser.username ? (
+                      <h1>{currentUser.username}</h1>
+                    ) : (
+                      <h1>User</h1>
+                    )}
                   </div>
                   <button
                     className="bg-gray-900 text-white px-3 py-2 rounded-md text-lg font-bold  hover:bg-gray-700 transition delay-75"
