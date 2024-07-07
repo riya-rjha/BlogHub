@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { AuthorizationContext } from "../Context/authContext";
 
 const Login = () => {
-  const { login } = useContext(AuthorizationContext);
+  const { login, currentUser } = useContext(AuthorizationContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,13 +17,19 @@ const Login = () => {
     password,
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  if (currentUser) {
+    const token = currentUser.token;
+    console.log(token);
+    localStorage.setItem("token", JSON.stringify(token));
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await login(inputs);
-      navigate("/");
+      // navigate("/");
     } catch (error) {
       toast.error("Check username and password again!");
     }
@@ -60,7 +66,7 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-        
+
           <div>
             <button
               type="submit"

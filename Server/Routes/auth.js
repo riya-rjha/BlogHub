@@ -55,7 +55,8 @@ userRouter.post("/login", async (req, res) => {
       })
       .status(200)
       .json({
-        username: user.username
+        username: user.username,
+        token: token
       }); // returns everything except user's password
   } catch (error) {
     return res.status(500).json(error);
