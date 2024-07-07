@@ -1,35 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
 import { AuthorizationContext } from "../Context/authContext";
 
 const Login = () => {
   const { login, currentUser } = useContext(AuthorizationContext);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const inputs = {
-    username,
-    password,
-  };
-
-  // const navigate = useNavigate();
-
-  if (currentUser) {
-    const token = currentUser.token;
-    console.log(token);
-    localStorage.setItem("token", JSON.stringify(token));
-  }
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(inputs);
-      // navigate("/");
+      await login({ username, password });
+      navigate("/");
     } catch (error) {
       toast.error("Check username and password again!");
     }
@@ -43,7 +29,7 @@ const Login = () => {
             Sign in to your account
           </h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input
             type="text"
             name="username"
@@ -66,12 +52,10 @@ const Login = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-
           <div>
             <button
               type="submit"
               className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              onClick={(e) => handleSubmit(e)}
             >
               Login
             </button>

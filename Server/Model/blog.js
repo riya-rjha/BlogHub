@@ -21,10 +21,10 @@ const blogSchema = new Schema({
         required: true, 
         type: String
     },
-    date: {
-        type: Date,
-        required: true
-    },
+    // date: {
+    //     type: Date,
+    //     required: true
+    // },
     uid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users",

@@ -1,13 +1,21 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axiosInstance from "../Components/axiosInstance";
+import {
+  FaBold,
+  FaItalic,
+  FaUnderline,
+  FaListUl,
+  FaListOl,
+} from "react-icons/fa";
 import { baseURL } from "../Components/ServerURL";
-import { FaBold, FaItalic, FaUnderline, FaListUl, FaListOl } from "react-icons/fa";
+import axios from "axios";
 
 const Write = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState(""); // State variable for category
   const [file, setFile] = useState(null); // State variable for file upload
+  const [imgUrl, setImgUrl] = useState(""); // State variable for image URL
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,13 +24,14 @@ const Write = () => {
       const formData = new FormData();
       formData.append("file", file);
 
-      const imgUrl = await uploadImage(formData);
+      const uploadedImgUrl = await uploadImage();
+      setImgUrl(uploadedImgUrl); // Store the uploaded image URL
 
-      const response = await axios.post(`${baseURL}/post/`, {
+      const response = await axiosInstance.post(`/post/`, {
         title,
-        description,
-        category,
-        img: imgUrl, // Assuming img is the field name on the server for image upload
+        desc: description,
+        cat: category,
+        img: uploadedImgUrl, // Assuming img is the field name on the server for image upload
       });
 
       console.log(response.data); // Log the response
@@ -39,7 +48,7 @@ const Write = () => {
 
   const uploadImage = async (formData) => {
     try {
-      const response = await axios.post(`${baseURL}/post/upload`, formData);
+      const response = await axios.post(`/upload`, imgUrl);
       return response.data; // Assuming server returns the image URL
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -94,14 +103,37 @@ const Write = () => {
               id="fileUpload"
               onChange={(e) => setFile(e.target.files[0])}
             />
-            <label htmlFor="fileUpload" className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
+            <label
+              htmlFor="fileUpload"
+              className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+            >
               Upload Image
             </label>
+            {file && (
+              <img
+                src={URL.createObjectURL(file)}
+                alt="Preview"
+                className="mt-4 mb-2 rounded"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
+            {imgUrl && (
+              <img
+                src={`${baseURL}/Client/public/Images/${imgUrl}`}
+                alt="Uploaded"
+                className="mt-4 mb-2 rounded"
+                style={{ maxWidth: "100%" }}
+              />
+            )}
+
             <div className="flex mt-4">
               <button className="hover:bg-gray-700 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded">
                 Save as Draft
               </button>
-              <button className="hover:bg-green-700 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded" onClick={handleSubmit}>
+              <button
+                className="hover:bg-green-700 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded"
+                onClick={handleSubmit}
+              >
                 Publish
               </button>
             </div>
@@ -117,7 +149,9 @@ const Write = () => {
                   checked={category === "art"}
                   onChange={() => setCategory("art")}
                 />
-                <label htmlFor="art" className="ml-2">Art</label>
+                <label htmlFor="art" className="ml-2">
+                  Art
+                </label>
               </div>
               <div className="mb-2">
                 <input
@@ -127,7 +161,9 @@ const Write = () => {
                   checked={category === "science"}
                   onChange={() => setCategory("science")}
                 />
-                <label htmlFor="science" className="ml-2">Science</label>
+                <label htmlFor="science" className="ml-2">
+                  Science
+                </label>
               </div>
               <div className="mb-2">
                 <input
@@ -137,7 +173,9 @@ const Write = () => {
                   checked={category === "technology"}
                   onChange={() => setCategory("technology")}
                 />
-                <label htmlFor="technology" className="ml-2">Technology</label>
+                <label htmlFor="technology" className="ml-2">
+                  Technology
+                </label>
               </div>
               <div className="mb-2">
                 <input
@@ -147,7 +185,9 @@ const Write = () => {
                   checked={category === "cinema"}
                   onChange={() => setCategory("cinema")}
                 />
-                <label htmlFor="cinema" className="ml-2">Cinema</label>
+                <label htmlFor="cinema" className="ml-2">
+                  Cinema
+                </label>
               </div>
               <div className="mb-2">
                 <input
@@ -157,7 +197,9 @@ const Write = () => {
                   checked={category === "design"}
                   onChange={() => setCategory("design")}
                 />
-                <label htmlFor="design" className="ml-2">Design</label>
+                <label htmlFor="design" className="ml-2">
+                  Design
+                </label>
               </div>
               <div className="mb-2">
                 <input
@@ -167,7 +209,9 @@ const Write = () => {
                   checked={category === "food"}
                   onChange={() => setCategory("food")}
                 />
-                <label htmlFor="food" className="ml-2">Food</label>
+                <label htmlFor="food" className="ml-2">
+                  Food
+                </label>
               </div>
             </div>
           </div>
