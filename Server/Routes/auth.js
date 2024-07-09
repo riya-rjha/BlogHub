@@ -15,14 +15,14 @@ userRouter.post("/register", async (req, res) => {
     if (user) {
       return res.status(409).json("User already exists!");
     }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = new userModel({
-        username,
-        email,
-        password: hashedPassword,
-      });
-      await newUser.save();
-      return res.status(200).json("User creation successful!");
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new userModel({
+      username,
+      email,
+      password: hashedPassword,
+    });
+    await newUser.save();
+    return res.status(200).json("User creation successful!");
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -47,13 +47,13 @@ userRouter.post("/login", async (req, res) => {
     // , {expiresIn: '1h'} - expiration time if specified
 
     res.cookie("access_token", token, {
-        httpOnly: true, // Cookie can be accessed only by web server & not JS Console
+      httpOnly: true, // Cookie can be accessed only by web server & not JS Console
       maxAge: 3600000,
     });
     return res.status(200).json({
-        username: user.username,
+      username: user.username,
       token: token,
-      }); // returns everything except user's password
+    }); // returns everything except user's password
   } catch (error) {
     return res.status(500).json(error);
   }

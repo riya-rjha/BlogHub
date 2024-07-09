@@ -3,11 +3,8 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
-import { LocalStorage } from "node-localstorage";
 
 const postRouter = express.Router();
-
-const localStorage = new LocalStorage("./scratch"); // Initialize node-localstorage
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -25,40 +22,25 @@ postRouter.post("/upload", upload.single("file"), function (req, res) {
   res.status(200).json(file.filename);
 });
 
-// Middleware to verify token
-const verifyToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) return res.status(401).json({ error: "Authenticate first!" });
-
-  jwt.verify(token, process.env.jwt_secretKey, (err, userData) => {
-    if (err) return res.status(403).json({ error: "Invalid token" });
-    req.userData = userData;
-    next();
-  });
-};
-
 // Post a blog
 postRouter.post("/", async (req, res) => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const userData = jwt.verify(token, process.env.jwt_secretKey);
+  const token = req.cookies.access_token;
+  console.log("Token : " + token);
+  if(!token) return res.status(401).json("Not authenticated");
+  try {
+    const userData = jwt.verify(token, process.env.jwt_secretKey);
+    console.log(userData.id);
+    const newBlog = new blogModel({
+      ...req.body,
+      img: req.body.img,
+      uid: userData.id,
+    });
 
-      const newBlog = new blogModel({
-        ...req.body,
-        img: req.body.img,
-        uid: userData.id,
-      });
-
-      await newBlog.save();
-      return res.status(201).json({ message: "Blog created successfully!" });
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  } else {
-    return res.status(401).json({ error: "Authenticate first!" });
-  } 
+    await newBlog.save();
+    return res.status(201).json({ message: "Blog created successfully!" });
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
+  }
 });
 
 // Get all blogs
@@ -88,7 +70,7 @@ postRouter.get("/:id", async (req, res) => {
 });
 
 // Delete a blog
-postRouter.delete("/:id", verifyToken, async (req, res) => {
+postRouter.delete("/:id", async (req, res) => {
   try {
     const deletedPost = await blogModel.findOneAndDelete({
       _id: req.params.id,
@@ -104,7 +86,7 @@ postRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 // Update a blog
-postRouter.put("/:id", verifyToken, async (req, res) => {
+postRouter.put("/:id", async (req, res) => {
   try {
     const updatedPost = await blogModel.findOneAndUpdate(
       { _id: req.params.id, uid: req.userData.id },
