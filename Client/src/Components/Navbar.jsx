@@ -16,7 +16,6 @@ const Navbar = () => {
     navigate("/");
   };
 
-
   return (
     <nav className=" shadow-lg sticky bg-white z-[1000] top-0">
       <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">

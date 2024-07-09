@@ -3,10 +3,12 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
+import { LocalStorage } from "node-localstorage";
 
 const postRouter = express.Router();
 
-// Using Multer to post images
+const localStorage = new LocalStorage("./scratch"); // Initialize node-localstorage
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "../Client/public/Images");
@@ -17,6 +19,11 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
+
+postRouter.post("/upload", upload.single("file"), function (req, res) {
+  const file = req.file;
+  res.status(200).json(file.filename);
+});
 
 // Middleware to verify token
 const verifyToken = (req, res, next) => {
@@ -31,26 +38,27 @@ const verifyToken = (req, res, next) => {
   });
 };
 
-// Set up a POST endpoint for handling file uploads
-postRouter.post("/upload", upload.single("file"), (req, res) => {
-  const file = req.file;
-  res.status(200).json(file.filename);
-});
-
 // Post a blog
-postRouter.post("/", verifyToken, async (req, res) => {
-  try {
-    const newBlog = new blogModel({
-      ...req.body,
-      img: req.body.img,
-      uid: req.userData.id,
-    });
+postRouter.post("/", async (req, res) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    try {
+      const userData = jwt.verify(token, process.env.jwt_secretKey);
 
-    await newBlog.save();
-    return res.status(201).json({ message: "Blog created successfully!" });
-  } catch (error) {
-    return res.status(500).json({ error: error.message });
-  }
+      const newBlog = new blogModel({
+        ...req.body,
+        img: req.body.img,
+        uid: userData.id,
+      });
+
+      await newBlog.save();
+      return res.status(201).json({ message: "Blog created successfully!" });
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
+  } else {
+    return res.status(401).json({ error: "Authenticate first!" });
+  } 
 });
 
 // Get all blogs

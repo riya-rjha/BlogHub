@@ -1,58 +1,45 @@
 import React, { useState } from "react";
-import axiosInstance from "../Components/axiosInstance";
-import {
-  FaBold,
-  FaItalic,
-  FaUnderline,
-  FaListUl,
-  FaListOl,
-} from "react-icons/fa";
-import { baseURL } from "../Components/ServerURL";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { baseURL } from "../Components/ServerURL";
+import moment from "moment";
 
 const Write = () => {
+  const navigate = useNavigate();
+
+  const state = useLocation().state;
+
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(""); // State variable for category
-  const [file, setFile] = useState(null); // State variable for file upload
-  const [imgUrl, setImgUrl] = useState(""); // State variable for image URL
+  const [cat, setCat] = useState("");
+  const [file, setFile] = useState(null);
+  const [value, setValue] = useState("");
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
+  const upload = async () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-
-      const uploadedImgUrl = await uploadImage();
-      setImgUrl(uploadedImgUrl); // Store the uploaded image URL
-
-      const response = await axiosInstance.post(`/post/`, {
-        title,
-        desc: description,
-        cat: category,
-        img: uploadedImgUrl, // Assuming img is the field name on the server for image upload
-      });
-
-      console.log(response.data); // Log the response
-
-      // Clear form fields after successful submission
-      setTitle("");
-      setDescription("");
-      setCategory("");
-      setFile(null);
+      const res = await axios.post(`${baseURL}/post/upload`, formData);
+      return res.data;
     } catch (error) {
-      console.error("Error:", error); // Handle errors
+      console.log(error.message);
     }
   };
 
-  const uploadImage = async (formData) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const imgUrl = await upload();
     try {
-      const response = await axios.post(`/upload`, imgUrl);
-      return response.data; // Assuming server returns the image URL
+      await axios.post(`${baseURL}/post/`, {
+        title,
+        desc: value,
+        img: imgUrl,
+        cat,
+      });
+      navigate("/");
     } catch (error) {
-      console.error("Error uploading image:", error);
-      return ""; // Return empty string or handle error appropriately
+      console.log(error.message);
     }
   };
 
@@ -68,24 +55,11 @@ const Write = () => {
             onChange={(e) => setTitle(e.target.value)}
           />
           <div className="writing-tools mb-4 p-2 border rounded">
-            <div className="flex items-center mb-2">
-              <select className="p-2 border rounded mr-4">
-                <option>Normal</option>
-                <option>Cursive</option>
-                <option>Decorative</option>
-              </select>
-              <FaBold className="mx-2 cursor-pointer " />
-              <FaItalic className="mx-2 cursor-pointer" />
-              <FaUnderline className="mx-2 cursor-pointer" />
-              <FaListUl className="mx-2 cursor-pointer" />
-              <FaListOl className="mx-2 cursor-pointer" />
-            </div>
-            <textarea
-              placeholder="Write your blog here..."
-              className="w-full resize-none p-2 border  rounded"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
+            <ReactQuill
+              value={value}
+              onChange={setValue}
+              className="w-full resize-none p-2 border rounded"
+            />
           </div>
         </div>
         <div className="right-section md:w-1/3 p-4">
@@ -100,38 +74,23 @@ const Write = () => {
             <input
               style={{ display: "none" }}
               type="file"
-              id="fileUpload"
+              id="file"
+              name=""
               onChange={(e) => setFile(e.target.files[0])}
             />
             <label
-              htmlFor="fileUpload"
-              className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
+              htmlFor="file"
+              className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer file"
             >
               Upload Image
             </label>
-            {file && (
-              <img
-                src={URL.createObjectURL(file)}
-                alt="Preview"
-                className="mt-4 mb-2 rounded"
-                style={{ maxWidth: "100%" }}
-              />
-            )}
-            {imgUrl && (
-              <img
-                src={`${baseURL}/Client/public/Images/${imgUrl}`}
-                alt="Uploaded"
-                className="mt-4 mb-2 rounded"
-                style={{ maxWidth: "100%" }}
-              />
-            )}
-
             <div className="flex mt-4">
               <button className="hover:bg-gray-700 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded">
                 Save as Draft
               </button>
               <button
-                className="hover:bg-green-700 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded"
+                className="hover:bg-green-700 transition delay-75 w-1/2 ml-2 py-2
+               bg-green-500 text-white rounded"
                 onClick={handleSubmit}
               >
                 Publish
@@ -146,8 +105,7 @@ const Write = () => {
                   type="radio"
                   id="art"
                   value="art"
-                  checked={category === "art"}
-                  onChange={() => setCategory("art")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="art" className="ml-2">
                   Art
@@ -158,8 +116,7 @@ const Write = () => {
                   type="radio"
                   id="science"
                   value="science"
-                  checked={category === "science"}
-                  onChange={() => setCategory("science")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="science" className="ml-2">
                   Science
@@ -170,8 +127,7 @@ const Write = () => {
                   type="radio"
                   id="technology"
                   value="technology"
-                  checked={category === "technology"}
-                  onChange={() => setCategory("technology")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="technology" className="ml-2">
                   Technology
@@ -182,8 +138,7 @@ const Write = () => {
                   type="radio"
                   id="cinema"
                   value="cinema"
-                  checked={category === "cinema"}
-                  onChange={() => setCategory("cinema")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="cinema" className="ml-2">
                   Cinema
@@ -194,8 +149,7 @@ const Write = () => {
                   type="radio"
                   id="design"
                   value="design"
-                  checked={category === "design"}
-                  onChange={() => setCategory("design")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="design" className="ml-2">
                   Design
@@ -206,8 +160,7 @@ const Write = () => {
                   type="radio"
                   id="food"
                   value="food"
-                  checked={category === "food"}
-                  onChange={() => setCategory("food")}
+                  onChange={(e) => setCat(e.target.value)}
                 />
                 <label htmlFor="food" className="ml-2">
                   Food
