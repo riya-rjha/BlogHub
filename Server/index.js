@@ -17,7 +17,12 @@ app.use(express.json());
 
 // Setup CORS
 // "proxy":http//localhost:8000/api -> Enable cors through Client/package.json
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 // Setting up Blog Routes
 app.use("/post", postRouter);

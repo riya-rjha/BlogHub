@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     const getAllBlogs = async () => {
-      const blogPosts = await axios.get(`${baseURL}/post${cat}`);
+      const blogPosts = await axios.get(`${baseURL}/post${cat}`, {withCredentials: true});
       setBlogs(blogPosts.data);
     };
     getAllBlogs();

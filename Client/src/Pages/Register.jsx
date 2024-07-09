@@ -4,7 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {baseURL} from '../Components/ServerURL';
+import { baseURL } from "../Components/ServerURL";
 import { Link } from "react-router-dom";
 
 const Register = () => {
@@ -23,7 +23,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${baseURL}/auth/register`, inputs);
+      await axios.post(`${baseURL}/auth/register`, inputs, {
+        withCredentials: true,
+      });
       navigate("/login");
     } catch (error) {
       toast.error("User already exists!");

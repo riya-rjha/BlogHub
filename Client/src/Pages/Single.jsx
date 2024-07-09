@@ -21,7 +21,9 @@ const Single = () => {
   useEffect(() => {
     const genBlogs = async () => {
       try {
-        const res = await axios.get(`${baseURL}/post/${id_post}`);
+        const res = await axios.get(`${baseURL}/post/${id_post}`, {
+          withCredentials: true,
+        });
         setPost(res.data);
       } catch (error) {
         console.log("Post could not be fetched");
@@ -32,7 +34,9 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${baseURL}/post/${id_post}`);
+      await axios.delete(`${baseURL}/post/${id_post}`, {
+        withCredentials: true,
+      });
       navigate("/");
     } catch (error) {
       toast.error("You can delete only your blog!");

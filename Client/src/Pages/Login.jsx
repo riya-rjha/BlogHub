@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login({ username, password });
+      await login({ username, password },{withCredentials: true});
       navigate("/");
     } catch (error) {
       toast.error("Check username and password again!");
