@@ -14,7 +14,7 @@ userRouter.post("/register", async (req, res) => {
     });
     if (user) {
       return res.status(409).json("User already exists!");
-    } else {
+    }
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = new userModel({
         username,
@@ -23,15 +23,14 @@ userRouter.post("/register", async (req, res) => {
       });
       await newUser.save();
       return res.status(200).json("User creation successful!");
-    }
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 });
 
 userRouter.post("/login", async (req, res) => {
+  const { username, password } = req.body;
   try {
-    const { username, password } = req.body;
     const user = await userModel.findOne({
       username,
     });
@@ -43,34 +42,31 @@ userRouter.post("/login", async (req, res) => {
       return res.json(401).json("Wrong username or password!");
     }
     const token = jwt.sign({ id: user._id }, process.env.jwt_secretKey, {
-      expiresIn: "1d",
+      expiresIn: "1h",
     });
     // , {expiresIn: '1h'} - expiration time if specified
 
-    const { password: pwd, ...props } = user; // password stored in pwd in hashed format
-
-    res
-      .cookie("access_token", token, {
+    res.cookie("access_token", token, {
         httpOnly: true, // Cookie can be accessed only by web server & not JS Console
-      })
-      .status(200)
-      .json({
+      maxAge: 3600000,
+    });
+    return res.status(200).json({
         username: user.username,
-        token: token
+      token: token,
       }); // returns everything except user's password
   } catch (error) {
     return res.status(500).json(error);
   }
 });
 
-userRouter.post("/logout", (req, res) => {
-  res
-    .clearCookie("access_token", {
-      sameSite: "none", // to disable cross site requests
-      secure: true, // cookie to be used with HTTPS only
-    })
-    .status(202)
-    .json("User has been logged out!");
+userRouter.post("/logout", async (req, res) => {
+  try {
+    res.clearCookie("access_token");
+    return res.status(202).json("User has been logged out!");
+  } catch (error) {
+    console.log(error.message);
+    return res.status(502).json("User could not be logged out!");
+  }
 });
 
 export default userRouter;
