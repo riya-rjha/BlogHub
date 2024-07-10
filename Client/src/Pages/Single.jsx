@@ -1,17 +1,15 @@
 // src/Single.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { baseURL } from "../Components/ServerURL";
-import { useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import moment from "moment";
 import Menu from "../Components/Menu";
 
 const Single = () => {
-  const [post, setPost] = useState({}); // used {} as we are talking about every single blog post that has multiple fields
+  const [post, setPost] = useState({});
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -32,6 +30,8 @@ const Single = () => {
     genBlogs();
   }, [id_post]);
 
+  console.log(post.img);
+
   const handleDelete = async () => {
     try {
       await axios.delete(`${baseURL}/post/${id_post}`, {
@@ -48,7 +48,7 @@ const Single = () => {
       <div className="flex flex-col md:flex-row my-8">
         <div className="left-section md:w-1/2 p-4">
           <img
-            src={post.img}
+            src={`../Images/${post.img}`}
             alt="blog"
             className="w-full rounded shadow-lg mb-4"
           />

@@ -4,6 +4,9 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
 
+const app = express();
+app.use(express.static("public"));
+
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   if (!token) return res.status(401).json("Not authenticated");
@@ -38,7 +41,7 @@ postRouter.post("/upload", upload.single("file"), function (req, res) {
 // Post a blog
 postRouter.post("/", async (req, res) => {
   const token = req.cookies.access_token;
-  if(!token) return res.status(401).json("Not authenticated");
+  if (!token) return res.status(401).json("Not authenticated");
   try {
     const userData = jwt.verify(token, process.env.jwt_secretKey);
     const newBlog = new blogModel({
