@@ -12,7 +12,7 @@ import PageNotFound from "./Components/PageNotFound";
 
 const App = () => {
   return (
-    <div className="relative z-10">
+    <div id="app" className="relative z-10 min-h-full">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>

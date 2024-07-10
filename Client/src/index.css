@@ -46,6 +46,20 @@ textarea {
   }
 }
 
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure app fills entire viewport */
+}
+
+footer {
+  background-color: #2d3748;
+  color: #fff;
+  padding: 20px 0;
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
