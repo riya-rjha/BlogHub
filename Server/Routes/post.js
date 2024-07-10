@@ -25,11 +25,9 @@ postRouter.post("/upload", upload.single("file"), function (req, res) {
 // Post a blog
 postRouter.post("/", async (req, res) => {
   const token = req.cookies.access_token;
-  console.log("Token : " + token);
   if(!token) return res.status(401).json("Not authenticated");
   try {
     const userData = jwt.verify(token, process.env.jwt_secretKey);
-    console.log(userData.id);
     const newBlog = new blogModel({
       ...req.body,
       img: req.body.img,
