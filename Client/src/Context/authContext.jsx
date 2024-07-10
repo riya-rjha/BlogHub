@@ -18,7 +18,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    await axios.post(`${baseURL}/auth/logout`);
+    await axios.post(`${baseURL}/auth/logout`, {
+      withCredentials: true,
+    });
     setCurrentUser(null);
     localStorage.removeItem("token");
   };

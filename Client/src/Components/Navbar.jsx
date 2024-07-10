@@ -80,7 +80,7 @@ const Navbar = () => {
                       <MdAccountCircle className="text-gray-800 text-2xl" />
                     </div>
                     {currentUser.username ? (
-                      <h1>{currentUser.username}</h1>
+                      <h1>{currentUser.username.toUpperCase()}</h1>
                     ) : (
                       <h1>User</h1>
                     )}
