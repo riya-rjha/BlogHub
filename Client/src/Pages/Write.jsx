@@ -7,7 +7,6 @@ import { baseURL } from "../Components/ServerURL";
 
 const Write = () => {
   const navigate = useNavigate();
-
   const state = useLocation().state;
 
   const [title, setTitle] = useState("");
@@ -30,7 +29,7 @@ const Write = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = await upload();
+    const imgUrl = file ? await upload() : "";
     try {
       const res = await axios.post(
         `${baseURL}/post/`,
@@ -51,129 +50,91 @@ const Write = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 bg-gray-100">
       <div className="flex flex-col md:flex-row my-8">
         <div className="left-section md:w-2/3 p-4">
           <input
             type="text"
             placeholder="Title"
-            className="w-full p-2 mb-4 text-2xl border rounded"
+            className="w-full p-4 mb-4 text-3xl border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="writing-tools mb-4 p-2 border rounded">
+          <div className="writing-tools mb-4 p-4 border border-gray-300 rounded shadow-sm">
             <ReactQuill
               value={value}
               onChange={setValue}
-              className="w-full resize-none p-2 border rounded"
+              className="w-full resize-none p-2 border border-gray-300 rounded"
             />
           </div>
         </div>
         <div className="right-section md:w-1/3 p-4">
-          <div className="publish-box p-4 border rounded mb-4">
-            <h3 className="text-xl font-bold mb-4">Publish</h3>
-            <p>
-              <span className=" font-bold">Status:</span> Draft
+          <div className="publish-box p-6 border border-gray-300 rounded shadow-sm mb-4 bg-white">
+            <h3 className="text-2xl font-bold mb-4">Publish</h3>
+            <p className="mb-2">
+              <span className="font-semibold">Status:</span> Draft
             </p>
-            <p>
-              <span className=" font-bold">Visibility:</span> Public
+            <p className="mb-4">
+              <span className="font-semibold">Visibility:</span> Public
             </p>
             <input
               style={{ display: "none" }}
               type="file"
               id="file"
               name=""
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={handleFileChange}
             />
             <label
               htmlFor="file"
-              className="hover:bg-blue-700 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer file"
+              className="hover:bg-blue-600 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer text-center"
             >
               Upload Image
             </label>
-            <div className="flex mt-4">
-              <button className="hover:bg-gray-700 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded">
+            {file && (
+              <div className="mt-4">
+                <img
+                  src={URL.createObjectURL(file)}
+                  alt="Uploaded"
+                  className="w-full h-auto rounded"
+                />
+              </div>
+            )}
+            <div className="flex mt-6">
+              <button className="hover:bg-gray-600 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded shadow-sm">
                 Save as Draft
               </button>
               <button
-                className="hover:bg-green-700 transition delay-75 w-1/2 ml-2 py-2
-               bg-green-500 text-white rounded"
+                className="hover:bg-green-600 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded shadow-sm"
                 onClick={handleSubmit}
               >
                 Publish
               </button>
             </div>
           </div>
-          <div className="category-box p-4 border rounded">
-            <h3 className="text-xl font-bold mb-4">Categories</h3>
+          <div className="category-box p-6 border border-gray-300 rounded shadow-sm bg-white">
+            <h3 className="text-2xl font-bold mb-4">Categories</h3>
             <div className="flex flex-col">
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="art"
-                  value="art"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="art" className="ml-2">
-                  Art
-                </label>
-              </div>
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="science"
-                  value="science"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="science" className="ml-2">
-                  Science
-                </label>
-              </div>
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="technology"
-                  value="technology"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="technology" className="ml-2">
-                  Technology
-                </label>
-              </div>
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="cinema"
-                  value="cinema"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="cinema" className="ml-2">
-                  Cinema
-                </label>
-              </div>
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="design"
-                  value="design"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="design" className="ml-2">
-                  Design
-                </label>
-              </div>
-              <div className="mb-2">
-                <input
-                  type="radio"
-                  id="food"
-                  value="food"
-                  onChange={(e) => setCat(e.target.value)}
-                />
-                <label htmlFor="food" className="ml-2">
-                  Food
-                </label>
-              </div>
+              {["art", "science", "technology", "cinema", "design", "food"].map(
+                (category) => (
+                  <div className="mb-2 flex items-center" key={category}>
+                    <input
+                      type="radio"
+                      id={category}
+                      value={category}
+                      onChange={(e) => setCat(e.target.value)}
+                      className="mr-2"
+                    />
+                    <label htmlFor={category} className="ml-2 capitalize">
+                      {category}
+                    </label>
+                  </div>
+                )
+              )}
             </div>
           </div>
         </div>

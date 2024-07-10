@@ -1,4 +1,3 @@
-// src/Single.jsx
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -10,6 +9,7 @@ import Menu from "../Components/Menu";
 
 const Single = () => {
   const [post, setPost] = useState({});
+  const [showModal, setShowModal] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -43,8 +43,14 @@ const Single = () => {
     }
   };
 
+  const handleModalClose = () => setShowModal(false);
+  const handleModalConfirm = () => {
+    handleDelete();
+    setShowModal(false);
+  };
+
   return (
-    <div className="container mx-auto p-6">
+    <div className="container mx-auto p-6 relative">
       <div className="flex flex-col md:flex-row my-8">
         <div className="left-section md:w-1/2 p-4">
           <img
@@ -71,7 +77,7 @@ const Single = () => {
               </Link>
               <FaTrash
                 className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
-                onClick={handleDelete}
+                onClick={() => setShowModal(true)}
               />
             </div>
           </div>
@@ -83,6 +89,29 @@ const Single = () => {
           <Menu cat={post.cat} id_post={id_post} />
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-lg w-1/3">
+            <h2 className="text-2xl font-bold mb-4">Delete Blog</h2>
+            <p className="mb-4">Do you really want to delete the blog?</p>
+            <div className="flex justify-end">
+              <button
+                className="bg-gray-500 text-white px-4 py-2 rounded mr-2 hover:bg-gray-700"
+                onClick={handleModalClose}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                onClick={handleModalConfirm}
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

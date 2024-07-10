@@ -12,7 +12,7 @@ const blogSchema = new Schema({
     desc:{
         required: true,
         type: String,
-        maxLength: 1000
+        maxLength: 2000
     },
     img: {
         type: String,
