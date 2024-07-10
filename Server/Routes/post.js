@@ -4,6 +4,19 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
 
+const verifyToken = (req, res, next) => {
+  const token = req.cookies.access_token;
+  if (!token) return res.status(401).json("Not authenticated");
+
+  try {
+    const userData = jwt.verify(token, process.env.jwt_secretKey);
+    req.userData = userData;
+    next();
+  } catch (error) {
+    return res.status(403).json("Token is not valid");
+  }
+};
+
 const postRouter = express.Router();
 
 const storage = multer.diskStorage({
@@ -68,7 +81,7 @@ postRouter.get("/:id", async (req, res) => {
 });
 
 // Delete a blog
-postRouter.delete("/:id", async (req, res) => {
+postRouter.delete("/:id", verifyToken, async (req, res) => {
   try {
     const deletedPost = await blogModel.findOneAndDelete({
       _id: req.params.id,

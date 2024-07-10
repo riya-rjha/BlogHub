@@ -39,10 +39,13 @@ const Write = () => {
           desc: value,
           img: imgUrl,
           cat,
+        },
+        {
+          withCredentials: true,
         }
       );
-      return res.data;
       navigate("/");
+      return res.data;
     } catch (error) {
       console.log(error.message);
     }
