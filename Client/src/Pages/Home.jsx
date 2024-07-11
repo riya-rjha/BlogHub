@@ -7,18 +7,25 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
+  const [allBlogs, allSetBlogs] = useState([]);
 
   const cat = useLocation().search; // URL beginning with ?
 
   useEffect(() => {
     const getAllBlogs = async () => {
-      const blogPosts = await axios.get(`${baseURL}/post${cat}`, {
-        withCredentials: true,
-      });
+      const blogPosts = await axios.get(`${baseURL}/post${cat}`);
       setBlogs(blogPosts.data);
     };
     getAllBlogs();
   }, [cat]);
+
+  useEffect(() => {
+    const getBlogs = async () => {
+      const blogPosts = await axios.get(`${baseURL}/post`);
+      allSetBlogs(blogPosts.data);
+    };
+    getBlogs();
+  }, []);
 
   return (
     <div className="container mx-auto p-6">

@@ -25,7 +25,7 @@ const Menu = ({ cat, id_post }) => {
       {posts.map((post, index) => (
         <div className="other-post mb-6" key={index}>
           <img
-            src={post.img}
+            src={`../Images/${post.img}`}
             alt="post"
             className="w-full rounded shadow-lg mb-2"
           />

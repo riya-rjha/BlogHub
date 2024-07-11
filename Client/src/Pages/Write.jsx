@@ -4,10 +4,14 @@ import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../Components/ServerURL";
+import { useContext } from "react";
+import { AuthorizationContext } from "../Context/authContext";
 
 const Write = () => {
   const navigate = useNavigate();
   const state = useLocation().state;
+
+  const { currentUser } = useContext(AuthorizationContext);
 
   const [title, setTitle] = useState("");
   const [cat, setCat] = useState("");
