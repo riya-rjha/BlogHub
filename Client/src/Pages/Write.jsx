@@ -4,14 +4,9 @@ import "react-quill/dist/quill.snow.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../Components/ServerURL";
-import { AuthorizationContext } from "../Context/authContext";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Write = () => {
   const navigate = useNavigate();
-
-  const { currentUser } = useContext(AuthorizationContext);
 
   const [title, setTitle] = useState("");
   const [cat, setCat] = useState("");

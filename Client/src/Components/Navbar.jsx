@@ -100,12 +100,21 @@ const Navbar = () => {
                 </Link>
               )}
             </div>
-            <Link
-              to="/write"
-              className="ml-4 bg-indigo-600 text-white px-3 py-2 rounded-md text-lg font-bold hover:bg-indigo-700 transition delay-75"
-            >
-              Write
-            </Link>
+            {currentUser ? (
+              <Link
+                to="/write"
+                className="ml-4 bg-indigo-600 text-white px-3 py-2 rounded-md text-lg font-bold hover:bg-indigo-700 transition delay-75"
+              >
+                Write
+              </Link>
+            ) : (
+              <Link to="/register">
+                <button className="ml-4 bg-indigo-600 text-white px-3 py-2 rounded-md text-lg font-bold hover:bg-indigo-700 transition delay-75">
+                  {" "}
+                  Register
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>
