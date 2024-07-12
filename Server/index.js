@@ -19,7 +19,7 @@ app.use(express.json());
 // "proxy":http//localhost:8000/api -> Enable cors through Client/package.json
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://full-stack-blog-app-skwm.vercel.app",
     credentials: true,
   })
 );
