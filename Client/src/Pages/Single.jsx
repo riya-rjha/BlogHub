@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { baseURL } from "../Components/ServerURL";
@@ -6,10 +6,13 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import moment from "moment";
 import Menu from "../Components/Menu";
+import { AuthorizationContext } from "../Context/authContext";
 
 const Single = () => {
   const [post, setPost] = useState({});
   const [showModal, setShowModal] = useState(false);
+
+  const {currentUser} = useContext(AuthorizationContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +33,6 @@ const Single = () => {
     genBlogs();
   }, [id_post]);
 
-  console.log(post.img);
 
   const handleDelete = async () => {
     try {
@@ -48,6 +50,9 @@ const Single = () => {
     handleDelete();
     setShowModal(false);
   };
+
+  const registeredUserName = post.uid;
+  console.log(registeredUserName);
 
   return (
     <div className="container mx-auto p-6 relative">
@@ -67,9 +72,9 @@ const Single = () => {
             <div>
               <p className="font-black text-xl">Writer</p>
               <p className="text-gray-600 capitalize">
-                <span className="font-bold">Date:</span>{" "}
-                {moment(post.date).fromNow()}
-              </p>
+                <span className="font-bold text-l">Date:</span>{" "}
+                {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+                </p>
             </div>
             <div className="ml-auto flex items-center">
               <Link to="/edit">

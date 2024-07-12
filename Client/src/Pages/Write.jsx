@@ -1,9 +1,10 @@
 import React, { useState, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { baseURL } from "../Components/ServerURL";
+import { toast } from "react-toastify";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -29,7 +30,17 @@ const Write = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const imgUrl = file ? await upload() : "";
+
     try {
+      if (!title) {
+        toast.error("Add title of Blog");
+      }
+      if (!cat) {
+        toast.error("Select category of Blog");
+      }
+      if (value.length > 7000) {
+        toast.error("Blog description can be upto 700 words");
+      }
       const res = await axios.post(
         `${baseURL}/post/`,
         {
@@ -42,10 +53,11 @@ const Write = () => {
           withCredentials: true,
         }
       );
-      navigate("/");
       return res.data;
     } catch (error) {
       console.log(error.message);
+    } finally {
+      navigate("/");
     }
   };
 
@@ -64,11 +76,11 @@ const Write = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="writing-tools mb-4 p-4 border border-gray-300 rounded shadow-sm">
+          <div className="writing-tools mb-4 border border-gray-300 rounded shadow-sm ">
             <ReactQuill
               value={value}
               onChange={setValue}
-              className="w-full resize-none p-2 border border-gray-300 rounded"
+              className="w-full resize-none border border-gray-300 rounded "
             />
           </div>
         </div>
@@ -90,10 +102,11 @@ const Write = () => {
             />
             <label
               htmlFor="file"
-              className="hover:bg-blue-600 transition delay-75 w-full mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer text-center"
+              className="block w-full hover:bg-blue-600 transition delay-75 mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer text-center"
             >
               Upload Image
             </label>
+
             {file && (
               <div className="mt-4">
                 <img
