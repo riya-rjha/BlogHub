@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { baseURL } from "../Components/ServerURL";
+import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
 
 const Write = () => {
@@ -18,7 +18,7 @@ const Write = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await axios.post(`${baseURL}/post/upload`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_baseURL}/post/upload`, formData, {
         withCredentials: true,
       });
       return res.data;
@@ -42,7 +42,7 @@ const Write = () => {
         toast.error("Blog description can be upto 700 words");
       }
       const res = await axios.post(
-        `${baseURL}/post/`,
+        `${import.meta.env.VITE_baseURL}/post/`,
         {
           title,
           desc: value,

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
-import { baseURL } from "../Components/ServerURL";
+import.meta.env.VITE_baseURL;
 
 export const AuthorizationContext = createContext();
 
@@ -10,7 +10,7 @@ export const AuthContextProvider = ({ children }) => {
   );
 
   const login = async (inputs) => {
-    const response = await axios.post(`${baseURL}/auth/login`, inputs, {
+    const response = await axios.post(`${import.meta.env.VITE_baseURL}/auth/login`, inputs, {
       withCredentials: true,
     });
     setCurrentUser(response.data);
@@ -19,7 +19,7 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = async () => {
     await axios.post(
-      `${baseURL}/auth/logout`,
+      `${import.meta.env.VITE_baseURL}/auth/logout`,
       {},
       {
         withCredentials: true,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { baseURL } from "../Components/ServerURL";
+import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
 import axios from "axios";
 import moment from "moment";
@@ -22,7 +22,7 @@ const Single = () => {
   useEffect(() => {
     const genBlogs = async () => {
       try {
-        const res = await axios.get(`${baseURL}/post/${id_post}`, {
+        const res = await axios.get(`${import.meta.env.VITE_baseURL}/post/${id_post}`, {
           withCredentials: true,
         });
         setPost(res.data);
@@ -36,7 +36,7 @@ const Single = () => {
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`${baseURL}/post/${id_post}`, {
+      await axios.delete(`${import.meta.env.VITE_baseURL}/post/${id_post}`, {
         withCredentials: true,
       });
       navigate("/");

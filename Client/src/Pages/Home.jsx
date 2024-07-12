@@ -1,7 +1,7 @@
 // src/Home.js
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { baseURL } from "../Components/ServerURL";
+import.meta.env.VITE_baseURL;
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -12,7 +12,7 @@ const Home = () => {
 
   useEffect(() => {
     const getBlogs = async () => {
-      const blogPosts = await axios.get(`${baseURL}/post${cat}`);
+      const blogPosts = await axios.get(`${import.meta.env.VITE_baseURL}/post${cat}`);
       setBlogs(blogPosts.data);
     };
     getBlogs();
@@ -20,7 +20,7 @@ const Home = () => {
 
   useEffect(() => {
     const getAllBlogs = async () => {
-      const blogPosts = await axios.get(`${baseURL}/post`);
+      const blogPosts = await axios.get(`${import.meta.env.VITE_baseURL}/post`);
       setAllBlogs(blogPosts.data);
     };
     getAllBlogs();

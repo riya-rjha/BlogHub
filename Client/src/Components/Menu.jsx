@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { baseURL } from "./ServerURL";
+import.meta.env.VITE_baseURL;
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -9,7 +9,7 @@ const Menu = ({ cat, id_post }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get(`${baseURL}/post/?cat=${cat}`);
+        const res = await axios.get(`${import.meta.env.VITE_baseURL}/post/?cat=${cat}`);
         const filteredPosts = res.data.filter((post) => post._id !== id_post);
         setPosts(filteredPosts);
       } catch (error) {
