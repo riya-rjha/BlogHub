@@ -3,7 +3,7 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
-import path from 'path'
+import path from "path";
 
 const app = express();
 app.use(express.static("public"));
@@ -51,7 +51,7 @@ postRouter.post("/", async (req, res) => {
       img: req.body.img,
       uid: userData.id,
     });
-
+    console.log(req.body.img);
     await newBlog.save();
     return res.status(201).json({ message: "Blog created successfully!" });
   } catch (error) {
@@ -71,6 +71,8 @@ postRouter.get("/", async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 });
+
+blogModel.find().then((blogs) => console.log(blogs));
 
 // Get single blog
 postRouter.get("/:id", async (req, res) => {

@@ -21,6 +21,7 @@ const Write = () => {
       const res = await axios.post(`${import.meta.env.VITE_baseURL}/post/upload`, formData, {
         withCredentials: true,
       });
+      console.log(res.data);
       return res.data;
     } catch (error) {
       console.log(error.message);
