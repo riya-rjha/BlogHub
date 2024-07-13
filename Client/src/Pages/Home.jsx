@@ -93,8 +93,9 @@ const Home = () => {
               <div className="md:w-1/2 p-4 order-1 md:order-2">
                 <img
                   src={
-                    `../Images/${blog.img}` ||
-                    "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
+                    blog.img !== undefined
+                      ? `../Images/${blog.img}`
+                      : "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
                   }
                   alt={blog.title}
                   className="w-full md:mx-auto rounded shadow-lg"
