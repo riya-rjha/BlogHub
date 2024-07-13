@@ -21,6 +21,7 @@ app.use(
   cors({
     origin: "https://client-blog-app-self.vercel.app",
     credentials: true,
+    methods: ["POST", "GET", "PUT", "DELETE", ]
   })
 );
 
