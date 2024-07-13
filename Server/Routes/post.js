@@ -9,6 +9,7 @@ app.use(express.static("public"));
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
+  console.log(token);
   if (!token) return res.status(401).json("Not authenticated");
 
   try {
