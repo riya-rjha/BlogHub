@@ -49,6 +49,9 @@ userRouter.post("/login", async (req, res) => {
     res.cookie("access_token", token, {
       httpOnly: true, // Cookie can be accessed only by web server & not JS Console
       maxAge: 3600000,
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
     });
     // console.log(req.cookies.access_token);
     return res.status(200).json({
