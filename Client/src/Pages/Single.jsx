@@ -12,7 +12,7 @@ const Single = () => {
   const [post, setPost] = useState({});
   const [showModal, setShowModal] = useState(false);
 
-  const {currentUser} = useContext(AuthorizationContext);
+  const { currentUser } = useContext(AuthorizationContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,9 +22,12 @@ const Single = () => {
   useEffect(() => {
     const genBlogs = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_baseURL}/post/${id_post}`, {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          `${import.meta.env.VITE_baseURL}/post/${id_post}`,
+          {
+            withCredentials: true,
+          }
+        );
         setPost(res.data);
       } catch (error) {
         console.log("Post could not be fetched");
@@ -32,7 +35,6 @@ const Single = () => {
     };
     genBlogs();
   }, [id_post]);
-
 
   const handleDelete = async () => {
     try {
@@ -59,7 +61,11 @@ const Single = () => {
       <div className="flex flex-col md:flex-row my-8">
         <div className="left-section md:w-1/2 p-4">
           <img
-            src={`../Images/${post.img}`}
+            src={
+              blog.img !== undefined
+                ? `../Images/${blog.img}`
+                : "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
+            }
             alt="blog"
             className="w-full rounded shadow-lg mb-4"
           />
@@ -74,7 +80,7 @@ const Single = () => {
               <p className="text-gray-600 capitalize">
                 <span className="font-bold text-l">Date:</span>{" "}
                 {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
-                </p>
+              </p>
             </div>
             <div className="ml-auto flex items-center">
               <Link to="/edit">
