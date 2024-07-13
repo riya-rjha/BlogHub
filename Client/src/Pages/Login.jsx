@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { AuthorizationContext } from "../Context/authContext";
 
 const Login = () => {
-  const { login, currentUser } = useContext(AuthorizationContext);
+  const { login } = useContext(AuthorizationContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login({ username, password },{withCredentials: true});
+      await login({ username, password }, { withCredentials: true });
       navigate("/");
     } catch (error) {
       toast.error("Check username and password again!");
