@@ -19,7 +19,7 @@ app.use(express.json());
 // "proxy":http//localhost:8000/api -> Enable cors through Client/package.json
 app.use(
   cors({
-    origin: "https://client-blog-app-self.vercel.app",
+    origin: process.env.frontendURL,
     credentials: true,
     methods: ["POST", "GET", "PUT", "DELETE", ],
   })
