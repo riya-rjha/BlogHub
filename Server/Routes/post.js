@@ -3,6 +3,7 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 import multer from "multer";
+import path from 'path'
 
 const app = express();
 app.use(express.static("public"));
@@ -28,7 +29,7 @@ const storage = multer.diskStorage({
     cb(null, "../Client/public/Images");
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + file.originalname);
+    cb(null, Date.now() + path.extname(file.originalname));
   },
 });
 

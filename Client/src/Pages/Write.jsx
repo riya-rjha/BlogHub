@@ -18,7 +18,7 @@ const Write = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await axios.post(`${import.meta.env.VITE_baseURL}/post/upload`, formData, {
+      const res = await axios.post(`${import.meta.env.VITE_baseURL}/post/upload/`, formData, {
         withCredentials: true,
       });
       return res.data;
