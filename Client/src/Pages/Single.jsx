@@ -88,9 +88,9 @@ const Single = () => {
               alt="blog"
               className="w-full rounded shadow-lg mb-4"
             />
-            <div className="user-info flex items-center mb-4">
+            <div className="flex items-center mb-4">
               <img
-                src="https://via.placeholder.com/50"
+                src={"https://cdn-icons-png.freepik.com/256/7977/7977760.png?ga=GA1.1.448448890.1721050418&semt=ais_hybrid"}
                 alt="user"
                 className="w-12 h-12 rounded-full mr-4"
               />
