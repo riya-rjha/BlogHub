@@ -14,7 +14,7 @@ const Single = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { currentUser } = useContext(AuthorizationContext);
+  const { userId } = useContext(AuthorizationContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,6 +58,9 @@ const Single = () => {
     setShowModal(false);
   };
 
+  console.log(post.uid);
+  console.log(userId);
+
   return (
     <>
       {isLoading && <Loading />}
@@ -97,10 +100,17 @@ const Single = () => {
                 <Link to="/edit">
                   <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
                 </Link>
-                <FaTrash
-                  className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
-                  onClick={() => setShowModal(true)}
-                />
+                {userId === post.uid ? (
+                  <FaTrash
+                    className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
+                    onClick={() => setShowModal(true)}
+                  />
+                ) : (
+                  <FaTrash
+                    className="text-gray-600 hidden hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
+                    onClick={() => setShowModal(true)}
+                  />
+                )}
               </div>
             </div>
             <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
@@ -109,7 +119,7 @@ const Single = () => {
             </p>
           </div>
           {/* Recommended Posts */}
-          
+
           <div className="mt-2 p-4">
             <h2 className="text-4xl font-bold mb-10">Recommended Posts</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
