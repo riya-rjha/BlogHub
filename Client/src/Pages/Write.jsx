@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
-import Loading from "../Components/Loading";
 
 const Write = () => {
   const navigate = useNavigate();

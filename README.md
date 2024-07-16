@@ -2,22 +2,24 @@
 
 ## Table of Contents
 
-- [About the Project](#project)
+- [About the Project](#about-the-project)
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [Project Structure](#project-structure)
 - [Client](#client)
 - [Server](#server)
+- [Environment Variables](#environment-variables)
 
 ## About the Project
 
-This is a full stack blog application that allows users to add, edit, or delete blog posts. It includes essential features such as user authentication, blogging capabilities, commenting on posts, liking posts, and categorizing posts by tags.
+This is a full-stack blog application that enables users to create, edit, and manage blog posts. It includes essential features such as user authentication, commenting, post liking, and categorization by tags.
 
-This application leverages modern web development technologies to provide a seamless and efficient user experience. The client side is built with React and Vite, while the server side uses Node.js, Express, and MongoDB.
+The application leverages modern web technologies, utilizing React for the frontend and Node.js with Express for the backend, backed by MongoDB for data storage.
 
 ## Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/your-repo/full-stack-blog-app.git
    cd full-stack-blog-app
@@ -66,30 +68,6 @@ To run the server side:
    npm start
    ```
 
-## Project Structure
-
-The project is divided into two main directories: `client` and `server`.
-
-```
-full-stack-blog-app/
-│
-├── client/
-│   ├── public/
-│   ├── src/
-│   ├── index.html
-│   ├── package.json
-│   └── vite.config.js
-│
-├── server/
-│   ├── models/
-│   ├── routes/
-│   ├── index.js
-│   ├── .env
-│   ├── package.json
-│   └── README.md
-│
-└── README.md
-```
 
 ### Client
 
@@ -97,12 +75,16 @@ The client side is built with Vite and React. The main packages used are:
 
 - `react`
 - `react-dom`
-- `react-icons`
 - `react-router-dom`
+- `react-context`
+- `react-icons`
+- `react-quill`
 - `react-toastify`
 - `axios`
 - `tailwindcss`
 - `react-context`
+- `dotenv`
+- `html-react-parser`
 
 ### Server
 
@@ -116,24 +98,87 @@ The server side is built with Node.js, Express, and MongoDB. The main packages u
 - `dotenv`
 - `jsonwebtoken`
 - `nodemon`
+- `mongodb`
+- `multer`
+
+
+   ## Project Structure
+
+   The project is structured into two main directories: `client` and `server`.
+   
+```
+   full-stack-blog-app/
+│
+├── client/
+│   ├── public/
+│   ├── src/
+│   │   ├── Components/
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Loading.jsx
+│   │   │   ├── Menu.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── PageNotFound.jsx
+│   │   ├── Context/
+│   │   │   └── authContext.jsx
+│   │   ├── Pages/
+│   │   │   ├── EditBlog.jsx
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Single.jsx
+│   │   │   └── Write.jsx
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.css
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── server/
+│   ├── models/
+│   │   ├── blog.js
+│   │   └── user.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   └── post.js
+│   ├── index.js
+│   ├── .env
+│   ├── package.json
+│   └── README.md
+│
+└── README.md
+```
+
+### Client
+
+The client side is built with Vite and React, utilizing libraries such as React Router DOM, Axios, and React Quill for rich text editing.
+
+### Server
+
+The server side is built with Node.js, Express, and MongoDB. It includes packages like Mongoose for database modeling, bcrypt for password hashing, and JWT for authentication.
 
 ## Environment Variables
 
-Create a `.env` file in the `server` directory to store your environment variables:
+Ensure to set up your environment variables in the `.env` files located in the `server` and `client` directories. Here are the required variables:
+
+**Server (.env):**
 
 ```plaintext
-# server/.env
-
+PORT=0000
 MONGODB_URI=mongodb://localhost:27017/your-database-name
 JWT_SECRET=your_jwt_secret_key
 ```
 
-Ensure to replace `your-database-name` and `your_jwt_secret_key` with your actual MongoDB database name and JWT secret key, respectively.
+**Client (.env):**
 
-## License
+```plaintext
+VITE_baseURL=http://localhost:0000
+```
 
-This project is licensed under the MIT License.
+Replace `your-database-name` and `your_jwt_secret_key` with your actual MongoDB database name and JWT secret key, respectively.
 
 ---
 
-By following these instructions, you can set up and run your full stack blog application. Happy coding!
+By following these instructions, you can set up and run your full-stack blog application. Happy coding!
+
+---
