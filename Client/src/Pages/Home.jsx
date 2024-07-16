@@ -20,10 +20,7 @@ const Home = () => {
       setIsLoading(true);
       try {
         const blogPosts = await axios.get(
-          `${import.meta.env.VITE_baseURL}/post${cat}`,
-          {
-            withCredentials: true,
-          }
+          `${import.meta.env.VITE_baseURL}/post${cat}`
         );
         setBlogs(blogPosts.data);
       } catch (error) {
@@ -41,10 +38,7 @@ const Home = () => {
       setIsLoading(true);
       try {
         const blogPosts = await axios.get(
-          `${import.meta.env.VITE_baseURL}/post`,
-          {
-            withCredentials: true,
-          }
+          `${import.meta.env.VITE_baseURL}/post`
         );
         setAllBlogs(blogPosts.data);
       } catch (error) {

@@ -58,11 +58,6 @@ const Single = () => {
     setShowModal(false);
   };
 
-  const registeredUserName = post.uid;
-  console.log(registeredUserName);
-
-  console.log(new Date(post.createdAt).toString());
-
   return (
     <>
       {isLoading && <Loading />}
