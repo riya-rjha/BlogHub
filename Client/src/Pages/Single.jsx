@@ -62,8 +62,8 @@ const Single = () => {
     <>
       {isLoading && <Loading />}
       <div className="container mx-auto p-6 relative">
-        <div className="flex flex-col md:flex-row my-8">
-          <div className="left-section md:w-1/2 p-4">
+        <div className="my-8">
+          <div className="p-4">
             <img
               src={
                 post.img !== undefined
@@ -109,8 +109,12 @@ const Single = () => {
             </p>
           </div>
           {/* Recommended Posts */}
-          <div className="md:w-1/2 p-4">
-            <Menu cat={post.cat} id_post={id_post} />
+          
+          <div className="mt-2 p-4">
+            <h2 className="text-4xl font-bold mb-10">Recommended Posts</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              <Menu cat={post.cat} id_post={id_post} />
+            </div>
           </div>
         </div>
 
