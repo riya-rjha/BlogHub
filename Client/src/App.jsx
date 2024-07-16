@@ -20,7 +20,7 @@ const App = () => {
         <Route path="/write" element={<Write />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
-        <Route path='/edit' element={<EditBlog/>}></Route>
+        <Route path='/edit/:id' element={<EditBlog/>}></Route>
         <Route path='*' element={<PageNotFound/>}></Route>
       </Routes>
       <Footer />

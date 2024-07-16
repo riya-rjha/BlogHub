@@ -112,7 +112,7 @@ const Single = () => {
               </div>
               {userId === post.uid && currentUser ? (
                 <div className="ml-auto flex items-center">
-                  <Link to="/edit">
+                  <Link to={`/edit/${post._id}`}>
                     <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
                   </Link>
                   <FaTrash

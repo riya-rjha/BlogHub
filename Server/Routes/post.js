@@ -102,7 +102,7 @@ postRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 // Update a blog
-postRouter.put("/:id", async (req, res) => {
+postRouter.put("/:id",verifyToken, async (req, res) => {
   try {
     const updatedPost = await blogModel.findOneAndUpdate(
       { _id: req.params.id, uid: req.userData.id },
