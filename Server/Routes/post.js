@@ -72,8 +72,6 @@ postRouter.get("/", async (req, res) => {
   }
 });
 
-blogModel.find().then((blogs) => console.log(blogs));
-
 // Get single blog
 postRouter.get("/:id", async (req, res) => {
   try {

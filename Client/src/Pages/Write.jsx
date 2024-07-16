@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
+import Loading from "../Components/Loading";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -18,20 +19,23 @@ const Write = () => {
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const res = await axios.post(`${import.meta.env.VITE_baseURL}/post/upload`, formData, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${import.meta.env.VITE_baseURL}/post/upload`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
       console.log(res.data);
       return res.data;
     } catch (error) {
-      console.log(error.message);
+      toast.error("Upload an image!");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const imgUrl = file ? await upload() : "";
-
     try {
       if (!title) {
         toast.error("Add title of Blog");
@@ -54,11 +58,11 @@ const Write = () => {
           withCredentials: true,
         }
       );
+      navigate("/");
       return res.data;
     } catch (error) {
+      toast.error("Blog could not be uploaded, check all fields!");
       console.log(error.message);
-    } finally {
-      navigate("/");
     }
   };
 

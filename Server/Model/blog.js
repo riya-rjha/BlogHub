@@ -17,6 +17,7 @@ const blogSchema = new Schema(
     },
     img: {
       type: String,
+      required: true,
     },
     cat: {
       required: true,
