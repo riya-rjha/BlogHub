@@ -4,13 +4,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
 import axios from "axios";
-import moment from "moment";
 import Menu from "../Components/Menu";
 import { AuthorizationContext } from "../Context/authContext";
 import parse from 'html-react-parser';
 
 const Single = () => {
-  const [post, setPost] = useState({});
+  const [post, setPost] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
   const { currentUser } = useContext(AuthorizationContext);
@@ -57,6 +56,8 @@ const Single = () => {
   const registeredUserName = post.uid;
   console.log(registeredUserName);
 
+  console.log(new Date(post.createdAt).toString());
+
   return (
     <div className="container mx-auto p-6 relative">
       <div className="flex flex-col md:flex-row my-8">
@@ -80,7 +81,12 @@ const Single = () => {
               <p className="font-black text-xl">Writer</p>
               <p className="text-gray-600 capitalize">
                 <span className="font-bold text-l">Date:</span>{" "}
-                {moment(post.createdAt).format("MMMM Do YYYY, h:mm:ss a")}
+                {(new Date(post.createdAt)).toLocaleDateString("en-US", {
+                    weekday: 'long', // "Monday"
+                    year: 'numeric', // "2023"
+                    month: 'long', // "January"
+                    day: 'numeric' // "1"
+                })}
               </p>
             </div>
             <div className="ml-auto flex items-center">
