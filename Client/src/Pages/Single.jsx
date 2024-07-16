@@ -7,6 +7,7 @@ import axios from "axios";
 import moment from "moment";
 import Menu from "../Components/Menu";
 import { AuthorizationContext } from "../Context/authContext";
+import parse from 'html-react-parser';
 
 const Single = () => {
   const [post, setPost] = useState({});
@@ -93,7 +94,7 @@ const Single = () => {
             </div>
           </div>
           <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
-          <p className="text-gray-700 mb-4">{post.desc}</p>
+          <p className="text-gray-700 mb-4">{parse(post.desc ? post.desc.toString() : '')}</p>
         </div>
         {/* Recommended Posts */}
         <div className="right-section md:w-1/2 p-4">

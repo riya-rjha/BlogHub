@@ -4,6 +4,7 @@ import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import parse from "html-react-parser";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -43,7 +44,7 @@ const Home = () => {
                   {blog.title}
                 </h2>
                 <p className={`text-gray-700 mb-4 md:text-justify text-center`}>
-                  {blog.desc.slice(0, 250)}{" "}
+                  {parse(blog.desc.slice(0, 250))}{" "}
                   <span className="font-bold">. . . .</span>
                 </p>
                 <div className="flex justify-center md:justify-start">
@@ -79,7 +80,7 @@ const Home = () => {
                   {blog.title}
                 </h2>
                 <p className={`text-gray-700 mb-4 md:text-justify text-center`}>
-                  {blog.desc.slice(0, 250)}{" "}
+                  {parse(blog.desc.slice(0, 250))}{" "}
                   <span className="font-bold">. . . .</span>
                 </p>
                 <div className="flex justify-center md:justify-start">

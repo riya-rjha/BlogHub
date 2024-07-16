@@ -81,6 +81,7 @@ const Write = () => {
             <ReactQuill
               value={value}
               onChange={setValue}
+              theme="snow"
               className="w-full resize-none border border-gray-300 rounded "
             />
           </div>
