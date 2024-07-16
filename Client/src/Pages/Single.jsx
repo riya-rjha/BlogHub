@@ -62,12 +62,14 @@ const Single = () => {
   const getWriter = async () => {
     try {
       const postUserID = post.uid;
-      const userData = await axios.get(`${import.meta.env.VITE_baseURL}/auth/${postUserID}`);
-      setWriter((userData.data.username).toUpperCase())
+      const userData = await axios.get(
+        `${import.meta.env.VITE_baseURL}/auth/${postUserID}`
+      );
+      setWriter(userData.data.username.toUpperCase());
     } catch (error) {
       console.log(error.message);
     }
-  }
+  };
 
   getWriter();
 
@@ -93,7 +95,9 @@ const Single = () => {
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
-                <p className="font-black text-xl">Written by <span className="font-bold">{writer}</span></p>
+                <p className="font-black text-xl">
+                  Written by <span className="font-bold">{writer}</span>
+                </p>
                 <p className="text-gray-600 capitalize">
                   <span className="font-bold text-l">Date:</span>{" "}
                   {new Date(post.createdAt).toString() === "Invalid Date"
@@ -117,7 +121,7 @@ const Single = () => {
                   />
                 </div>
               ) : (
-               ""
+                ""
               )}
             </div>
             <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
