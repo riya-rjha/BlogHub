@@ -75,4 +75,17 @@ userRouter.post("/logout", async (req, res) => {
   }
 });
 
+// Get single user (For Writer's name)
+userRouter.get("/:id", async (req, res) => {
+  try {
+    const getSingleUser = await userModel.findById(req.params.id);
+    if (!getSingleUser) {
+      return res.status(404).json({ error: "User not found!" });
+    }
+    return res.status(200).json(getSingleUser);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+});
+
 export default userRouter;

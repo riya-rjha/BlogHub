@@ -13,8 +13,9 @@ const Single = () => {
   const [post, setPost] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [writer, setWriter] = useState("");
 
-  const { userId } = useContext(AuthorizationContext);
+  const { userId, currentUser } = useContext(AuthorizationContext);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,8 +59,17 @@ const Single = () => {
     setShowModal(false);
   };
 
-  console.log(post.uid);
-  console.log(userId);
+  const getWriter = async () => {
+    try {
+      const postUserID = post.uid;
+      const userData = await axios.get(`${import.meta.env.VITE_baseURL}/auth/${postUserID}`);
+      setWriter((userData.data.username).toUpperCase())
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
+
+  getWriter();
 
   return (
     <>
@@ -83,7 +93,7 @@ const Single = () => {
                 className="w-12 h-12 rounded-full mr-4"
               />
               <div>
-                <p className="font-black text-xl">Writer</p>
+                <p className="font-black text-xl">Written by <span className="font-bold">{writer}</span></p>
                 <p className="text-gray-600 capitalize">
                   <span className="font-bold text-l">Date:</span>{" "}
                   {new Date(post.createdAt).toString() === "Invalid Date"
@@ -96,22 +106,19 @@ const Single = () => {
                       })}
                 </p>
               </div>
-              <div className="ml-auto flex items-center">
-                <Link to="/edit">
-                  <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
-                </Link>
-                {userId === post.uid ? (
+              {userId === post.uid && currentUser ? (
+                <div className="ml-auto flex items-center">
+                  <Link to="/edit">
+                    <FaEdit className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7" />
+                  </Link>
                   <FaTrash
                     className="text-gray-600 hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
                     onClick={() => setShowModal(true)}
                   />
-                ) : (
-                  <FaTrash
-                    className="text-gray-600 hidden hover:text-gray-800 mx-2 cursor-pointer h-7 w-7"
-                    onClick={() => setShowModal(true)}
-                  />
-                )}
-              </div>
+                </div>
+              ) : (
+               ""
+              )}
             </div>
             <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
             <p className="text-gray-700 mb-4">
