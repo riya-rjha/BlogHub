@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const EditBlog = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const id_post = location.pathname.split("/")[2]; // returns the id of blog
+  const id_post = location.pathname.split("/")[2]; 
 
   const [title, setTitle] = useState("");
   const [cat, setCat] = useState("");
   const [file, setFile] = useState(null);
   const [value, setValue] = useState("");
+  const [prevImg, setPrevImg] = useState(""); 
 
   useEffect(() => {
     fetchPostData();
@@ -28,6 +29,7 @@ const EditBlog = () => {
       setTitle(postData.title);
       setCat(postData.cat);
       setValue(postData.desc);
+      setPrevImg(postData.img); 
     } catch (error) {
       console.error("Error fetching post data:", error.message);
     }
@@ -44,16 +46,20 @@ const EditBlog = () => {
           withCredentials: true,
         }
       );
-      console.log(res.data);
-      return res.data;
+      return res.data.url; 
     } catch (error) {
       toast.error("Upload an image!");
+      return "";
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = file ? await upload() : "";
+    let imgUrl = prevImg; 
+    if (file) {
+      imgUrl = await upload(); 
+    }
+
     try {
       if (!title) {
         toast.error("Add title of Blog");
@@ -135,6 +141,15 @@ const EditBlog = () => {
               Upload Image
             </label>
 
+            {prevImg && !file && (
+              <div className="mt-4">
+                <img
+                  src={`../Images/${prevImg}`}
+                  alt="Uploaded"
+                  className="w-full h-auto rounded"
+                />
+              </div>
+            )}
             {file && (
               <div className="mt-4">
                 <img
