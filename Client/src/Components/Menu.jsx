@@ -27,16 +27,18 @@ const Menu = ({ cat, id_post }) => {
         <>
           {posts.map((post, index) => (
             <div
-              className="bg-[#f7f7f7] shadow-lg transform transition duration-500 hover:scale-105 rounded-md p-8 mb-6"
+              className="bg-[#f7f7f7] shadow-lg transform transition duration-500 hover:scale-105 rounded-md p-8 mb-6 flex flex-col"
               key={index}
             >
               <img
                 src={`../Images/${post.img}`}
                 alt="post"
-                className="w-full rounded shadow-lg mb-2"
+                className="w-[315px] h-[210px] rounded shadow-lg mb-2"
               />
-              <h4 className="font-semibold text-2xl mb-2">{post.title}</h4>
-              <Link className="link" to={`/post/${post._id}`}>
+              <h4 className="font-semibold text-2xl my-4 flex-grow">
+                {post.title}
+              </h4>
+              <Link className="link mt-auto" to={`/post/${post._id}`}>
                 <button className="px-4 py-2 bg-orange-500 text-white rounded w-full">
                   Read More
                 </button>
