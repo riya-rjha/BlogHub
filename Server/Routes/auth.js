@@ -53,12 +53,11 @@ userRouter.post("/login", async (req, res) => {
       secure: true,
       sameSite: "None",
     });
-    // console.log(req.cookies.access_token);
     return res.status(200).json({
       username: user.username,
       token: token,
       userId: user._id,
-    }); // returns everything except user's password
+    }); 
   } catch (error) {
     return res.status(500).json(error);
   }
