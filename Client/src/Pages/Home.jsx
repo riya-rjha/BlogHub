@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
+import SearchBar from "../Components/SearchBar";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [allBlogs, setAllBlogs] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [visibleBlogs, setVisibleBlogs] = useState(6); // Number of blogs initially visible
+  const [visibleBlogs, setVisibleBlogs] = useState(6); 
 
   const cat = useLocation().search;
 
@@ -58,6 +59,7 @@ const Home = () => {
 
   return (
     <div className="container mx-auto p-6">
+      <SearchBar/>
       {isLoading ? (
         <Loading />
       ) : (
