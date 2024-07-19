@@ -34,16 +34,16 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage });
-
+// Upload file endpoint
 postRouter.post("/upload", upload.single("file"), function (req, res) {
   const file = req.file;
-  res.status(200).json({filename: file.filename});
+  return res.status(200).json({ filename: file.filename }); // Wrap filename in an object
 });
 
 // Post a blog
 postRouter.post("/", async (req, res) => {
   const token = req.cookies.access_token;
-  if (!token) return res.status(401).json("Not authenticated");
+  if (!token) return res.status(401).json({ error: "Not authenticated" });
   try {
     const userData = jwt.verify(token, process.env.jwt_secretKey);
     const newBlog = new blogModel({
@@ -51,7 +51,6 @@ postRouter.post("/", async (req, res) => {
       img: req.body.img,
       uid: userData.id,
     });
-    console.log(req.body.img);
     await newBlog.save();
     return res.status(201).json({ message: "Blog created successfully!" });
   } catch (error) {
@@ -102,7 +101,7 @@ postRouter.delete("/:id", verifyToken, async (req, res) => {
 });
 
 // Update a blog
-postRouter.put("/:id",verifyToken, async (req, res) => {
+postRouter.put("/:id", verifyToken, async (req, res) => {
   try {
     const updatedPost = await blogModel.findOneAndUpdate(
       { _id: req.params.id, uid: req.userData.id },
