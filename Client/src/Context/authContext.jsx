@@ -35,6 +35,7 @@ export const AuthContextProvider = ({ children }) => {
       }
     );
     setCurrentUser(null);
+    setUserId(null);
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
   };
