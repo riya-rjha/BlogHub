@@ -22,6 +22,10 @@ textarea {
   font-weight: bold;
 }
 
+.red{
+  background-color: red;
+}
+
 .blog-container {
   background: #f3f3f3ae;
   padding: 20px;

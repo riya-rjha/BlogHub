@@ -23,6 +23,12 @@ const Home = () => {
     () => {
       const filteredResults = filterSearchedBlogs(search, allBlogs);
       setFilteredBlogs(filteredResults);
+
+      filteredResults.map((_) => {
+        const searchedTitleKeyword = document.getElementById("titleBlog");
+        console.log(searchedTitleKeyword);
+        // searchedTitleKeyword.classList.add("red");
+      });
     },
     [search],
     [allBlogs]
@@ -104,11 +110,15 @@ const Home = () => {
                     }`}
                   >
                     <div className="md:w-1/2 p-4 order-2 md:order-1 ">
-                      <h2 className="md:text-4xl text-2xl font-bold mb-4 text-center md:text-left">
+                      <h2
+                        className="md:text-4xl text-2xl font-bold mb-4 text-center md:text-left"
+                        id="titleBlog"
+                      >
                         {blog.title}
                       </h2>
                       <p
                         className={`text-gray-700 mb-4 md:text-justify text-center`}
+                        id="desc-blog"
                       >
                         {parse(blog.desc.slice(0, 250))}{" "}
                         <span className="font-bold">. . . .</span>
