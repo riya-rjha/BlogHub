@@ -39,7 +39,7 @@ userRouter.post("/login", async (req, res) => {
     }
     const checkPwd = await bcrypt.compare(password, user.password);
     if (!checkPwd) {
-      return res.json(401).json("Wrong username or password!");
+      return res.status(401).json("Wrong username or password!");
     }
     const token = jwt.sign({ id: user._id }, process.env.jwt_secretKey, {
       expiresIn: "1h",

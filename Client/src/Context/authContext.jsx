@@ -11,8 +11,6 @@ export const AuthContextProvider = ({ children }) => {
   const [userId, setUserId] = useState(
     JSON.parse(localStorage.getItem("userId")) || null
   );
-  const [allBlogs, setAllBlogs] = useState([]);
-  const [filteredBlogs, setFilteredBlogs] = useState([]);
 
   const login = async (inputs) => {
     const response = await axios.post(
