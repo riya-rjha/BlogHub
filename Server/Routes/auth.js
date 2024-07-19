@@ -59,7 +59,7 @@ userRouter.post("/login", async (req, res) => {
       userId: user._id,
     }); 
   } catch (error) {
-    return res.status(500).json(error);
+    return res.status(500).json({ error: error.message });
   }
 });
 
