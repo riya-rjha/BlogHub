@@ -102,9 +102,9 @@ The server side is built with Node.js, Express, and MongoDB. The main packages u
 - `multer`
 
 
-   ## Project Structure
+## Project Structure
 
-   The project is structured into two main directories: `client` and `server`.
+The project is structured into two main directories: `client` and `server`.
    
 ```
    full-stack-blog-app/
