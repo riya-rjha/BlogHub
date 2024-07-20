@@ -14,6 +14,7 @@ const Home = () => {
   const [visibleBlogs, setVisibleBlogs] = useState(6);
   const [search, setSearch] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
+  const [img, setImg] = useState("");
 
   const cat = useLocation().search;
 
@@ -60,6 +61,7 @@ const Home = () => {
           `${import.meta.env.VITE_baseURL}/post`
         );
         setAllBlogs(blogPosts.data);
+        setImg(blogPosts.data.img);
       } catch (error) {
         toast.error("Blogs could not be loaded!");
         console.log(error.message);
@@ -132,9 +134,8 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                    {imm = `/Images/${blog.img}`}
                       <img
-                        src={imm}
+                        src={img}
                         alt={blog.title}
                         className="w-full md:mx-auto rounded shadow-lg"
                       />
