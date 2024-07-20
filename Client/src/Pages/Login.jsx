@@ -18,6 +18,7 @@ const Login = () => {
       navigate("/");
     } catch (error) {
       toast.error("Check username and password again!");
+      navigate('/');
     } finally {
       window.location.reload();
     }

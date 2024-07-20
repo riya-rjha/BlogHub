@@ -111,6 +111,7 @@ The server side is built with Node.js, Express, and MongoDB. The main packages u
 │
 ├── client/
 │   ├── public/
+|   ├── Images/
 │   ├── src/
 │   │   ├── Components/
 │   │   │   ├── Footer.jsx
