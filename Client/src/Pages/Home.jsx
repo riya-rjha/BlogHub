@@ -132,10 +132,11 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
+                      {(immm = blog.img)}
                       <img
                         src={
                           blog.img !== undefined
-                            ? require(`../Images/${blog.img}`).default
+                            ? "../Images/immm"
                             : "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
                         }
                         alt={blog.title}
