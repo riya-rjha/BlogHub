@@ -135,7 +135,7 @@ const Home = () => {
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
                       <img
-                        src={img}
+                        src={`/Images/${img}`}
                         alt={blog.title}
                         className="w-full md:mx-auto rounded shadow-lg"
                       />
