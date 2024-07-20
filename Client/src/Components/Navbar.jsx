@@ -1,6 +1,6 @@
 // src/Navbar.js
 import React from "react";
-import logo from "../Images/RRJ-logo.png";
+import logo from "../img/RRJ-logo.png";
 import { AuthorizationContext } from "../Context/authContext";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
