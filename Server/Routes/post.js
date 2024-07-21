@@ -26,10 +26,11 @@ const postRouter = express.Router();
 
 const storage = multer.diskStorage({
   destination: function (_, __, cb) {
-    cb(null, "../Client/public/Images");
+    cb(null, path.resolve("../Client/public/Images"));
   },
   filename: function (_, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
+    const filename = `${Date.now()}-${file.originalname}`;
+    cb(null, filename);
   },
 });
 
