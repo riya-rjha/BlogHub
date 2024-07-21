@@ -25,10 +25,10 @@ const verifyToken = (req, res, next) => {
 const postRouter = express.Router();
 
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
+  destination: function (_, __, cb) {
     cb(null, "../Client/public/Images");
   },
-  filename: function (req, file, cb) {
+  filename: function (_, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname));
   },
 });
@@ -37,7 +37,7 @@ const upload = multer({ storage });
 // Upload file endpoint
 postRouter.post("/upload", upload.single("file"), function (req, res) {
   const file = req.file;
-  return res.status(200).json({ filename: file.filename }); 
+  res.status(200).json(file.filename);
 });
 
 // Post a blog
