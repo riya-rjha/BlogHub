@@ -6,7 +6,6 @@ import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
 import { AuthorizationContext } from "../Context/authContext";
-import a from '/Images/1721201192262.avif';
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -83,7 +82,6 @@ const Home = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <img src={a} alt="Aa" />
       {!cat ? (
         <div className="relative mx-auto max-w-3xl">
           <input
