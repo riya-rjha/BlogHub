@@ -37,7 +37,7 @@ const upload = multer({ storage });
 // Upload file endpoint
 postRouter.post("/upload", upload.single("file"), function (req, res) {
   const file = req.file;
-  return res.status(200).json({ filename: file.filename }); // Wrap filename in an object
+  return res.status(200).json({ filename: file.filename }); 
 });
 
 // Post a blog

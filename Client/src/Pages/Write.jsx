@@ -34,7 +34,7 @@ const Write = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = file ? await upload() : "";
+    const imgUrl = await upload();
     try {
       if (!title) {
         toast.error("Add title of Blog");
