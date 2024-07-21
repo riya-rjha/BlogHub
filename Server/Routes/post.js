@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 // Upload file endpoint
 postRouter.post("/upload", upload.single("file"), function (req, res) {
   const file = req.file;
