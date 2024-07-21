@@ -102,7 +102,6 @@ const Write = () => {
               style={{ display: "none" }}
               type="file"
               id="file"
-              name=""
               onChange={handleFileChange}
             />
             <label

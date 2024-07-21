@@ -6,7 +6,7 @@ import multer from "multer";
 import path from "path";
 
 const app = express();
-app.use(express.static("public"));
+app.use(express.static("Client/public"));
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
