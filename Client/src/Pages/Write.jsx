@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
+import sourceImg from "../img/RRJ-logo.png";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const Write = () => {
         {
           title,
           desc: value,
-          img: imgUrl,
+          img: imgUrl ? imgUrl : sourceImg,
           cat,
         },
         {
