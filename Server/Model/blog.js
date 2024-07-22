@@ -1,4 +1,4 @@
-// “id”, “title”, “desc”, “img”, “cat”, “date”, and “uid”
+// “id”, “title”, “desc”, “cat”, “date”, and “uid”
 
 import mongoose from "mongoose";
 
@@ -14,10 +14,6 @@ const blogSchema = new Schema(
       required: true,
       type: String,
       maxLength: 7000,
-    },
-    img: {
-      type: String,
-      // required: true,
     },
     cat: {
       required: true,

@@ -6,7 +6,9 @@ import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
 import { AuthorizationContext } from "../Context/authContext";
+import { storage } from "../../firebase";
 import sourceImg from "../img/RRJ-logo.png";
+import { listAll, getDownloadURL, ref } from "firebase/storage";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -15,7 +17,9 @@ const Home = () => {
   const [visibleBlogs, setVisibleBlogs] = useState(6);
   const [search, setSearch] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [img, setImg] = useState("");
+  const [imgList, setImgList] = useState([]);
+
+  const imageListRef = ref(storage, "images/");
 
   const cat = useLocation().search;
 
@@ -29,12 +33,29 @@ const Home = () => {
       filteredResults.map((_) => {
         const searchedTitleKeyword = document.getElementById("titleBlog");
         console.log(searchedTitleKeyword);
-        // searchedTitleKeyword.classList.add("red");
       });
     },
     [search],
     [allBlogs]
   );
+
+  useEffect(() => {
+    const fetchImageList = async () => {
+      try {
+        const images = await listAll(imageListRef);
+        console.log(images);
+        images.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            setImgList((prev) => [...prev, url]);
+          });
+        });
+        console.log(imgList.map((url) => console.log(url)));
+      } catch (error) {
+        console.error("Error fetching images:", error.message);
+      }
+    };
+    fetchImageList();
+  }, []);
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -62,7 +83,6 @@ const Home = () => {
           `${import.meta.env.VITE_baseURL}/post`
         );
         setAllBlogs(blogPosts.data);
-        setImg(blogPosts.data.img);
       } catch (error) {
         toast.error("Blogs could not be loaded!");
         console.log(error.message);
@@ -135,11 +155,14 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                      <img
-                        src={img ? `/Images/${img}` : sourceImg}
-                        alt={blog.title}
-                        className="w-full md:mx-auto rounded shadow-lg"
-                      />
+                      {imgList.map((url) => (
+                        <img
+                        z  key={url}
+                          src={url}
+                          alt={blog.title}
+                          className="w-full md:mx-auto rounded shadow-lg"
+                        />
+                      ))}
                     </div>
                   </div>
                 ))
@@ -180,15 +203,17 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                      <img
-                        src={
-                          blog.img !== undefined
-                            ? `../Images/${blog.img}`
-                            : "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
-                        }
-                        alt={blog.title}
-                        className="w-full md:mx-auto rounded shadow-lg"
-                      />
+                      {imgList.map((url) => {
+                        console.log(url);
+                        return (
+                          <img
+                            key={url}
+                            src={url}
+                            alt={blog.title}
+                            className="w-full md:mx-auto rounded shadow-lg"
+                          />
+                        );
+                      })}
                     </div>
                   </div>
                 ))
