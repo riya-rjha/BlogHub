@@ -6,7 +6,7 @@ import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
 import sourceImg from "../img/RRJ-logo.png";
-import { storage } from "../../firebase";
+import { storage } from "../Components/firebase.js";
 import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 
@@ -18,6 +18,7 @@ const Write = () => {
   const [file, setFile] = useState(null);
   const [value, setValue] = useState("");
   const [imgList, setImgList] = useState([]);
+  const [url, setUrl] = useState("");
 
   const imageListRef = ref(storage, "images/");
 
@@ -26,7 +27,9 @@ const Write = () => {
       if (file == null) return;
       const imageRef = ref(storage, `images/${file.name + v4()}`);
       const res = await uploadBytes(imageRef, file);
-      console.log(res);
+      const img_url = await getDownloadURL(imageRef);
+      setUrl(img_url);
+      console.log(url);
     } catch (error) {
       toast.error("Upload an image!");
     }
@@ -36,13 +39,10 @@ const Write = () => {
     const fetchImageList = async () => {
       try {
         const images = await listAll(imageListRef);
-        console.log(images);
-        images.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            setImgList((prev) => [...prev, url]);
-          });
-        });
-        console.log(imgList.map((url)=>console.log(url)));
+        const urls = await Promise.all(
+          images.items.map((item) => getDownloadURL(item))
+        );
+        setImgList(urls);
       } catch (error) {
         console.error("Error fetching images:", error.message);
       }
@@ -138,12 +138,9 @@ const Write = () => {
                 />
               </div>
             )}
-            <div className="flex mt-6">
-              <button className="hover:bg-gray-600 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded shadow-sm">
-                Save as Draft
-              </button>
+            <div className="flex mt-6 w-full">
               <button
-                className="hover:bg-green-600 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded shadow-sm"
+                className="hover:bg-green-600 transition delay-75 w-full ml-2 py-2 bg-green-500 text-white rounded shadow-sm"
                 onClick={handleSubmit}
               >
                 Publish

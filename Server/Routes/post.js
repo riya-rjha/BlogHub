@@ -3,10 +3,6 @@ import { blogModel } from "../Model/blog.js";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-const app = express();
-
-// app.use(express.static("public"));
-
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
   console.log(token);

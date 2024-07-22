@@ -6,7 +6,7 @@ import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
 import { AuthorizationContext } from "../Context/authContext";
-import { storage } from "../../firebase";
+import { storage } from "../Components/firebase.js";
 import sourceImg from "../img/RRJ-logo.png";
 import { listAll, getDownloadURL, ref } from "firebase/storage";
 
@@ -43,13 +43,11 @@ const Home = () => {
     const fetchImageList = async () => {
       try {
         const images = await listAll(imageListRef);
-        console.log(images);
-        images.items.forEach((item) => {
-          getDownloadURL(item).then((url) => {
-            setImgList((prev) => [...prev, url]);
-          });
-        });
-        console.log(imgList.map((url) => console.log(url)));
+        const urls = await Promise.all(
+          images.items.map((item) => getDownloadURL(item))
+        );
+        console.log(urls);
+        setImgList(urls);
       } catch (error) {
         console.error("Error fetching images:", error.message);
       }
@@ -157,7 +155,7 @@ const Home = () => {
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
                       {imgList.map((url) => (
                         <img
-                        z  key={url}
+                          key={url}
                           src={url}
                           alt={blog.title}
                           className="w-full md:mx-auto rounded shadow-lg"
