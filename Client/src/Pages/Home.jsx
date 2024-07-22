@@ -6,6 +6,7 @@ import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
 import { AuthorizationContext } from "../Context/authContext";
+import sourceImg from "../img/RRJ-logo.png";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -135,7 +136,7 @@ const Home = () => {
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
                       <img
-                        src={`/Images/${img}`}
+                        src={img ? `/Images/${img}`: sourceImg}
                         alt={blog.title}
                         className="w-full md:mx-auto rounded shadow-lg"
                       />
