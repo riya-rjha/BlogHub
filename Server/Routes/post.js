@@ -42,7 +42,7 @@ postRouter.post("/upload", upload.single("file"), function (req, res) {
 });
 
 // Post a blog
-postRouter.post("/", upload.single("file"), async (req, res) => {
+postRouter.post("/", async (req, res) => {
   const token = req.cookies.access_token;
   if (!token) return res.status(401).json({ error: "Not authenticated" });
   try {
