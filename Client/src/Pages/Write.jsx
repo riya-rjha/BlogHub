@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,9 @@ import axios from "axios";
 import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
 import sourceImg from "../img/RRJ-logo.png";
+import { storage } from "../../firebase";
+import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -14,24 +17,38 @@ const Write = () => {
   const [cat, setCat] = useState("");
   const [file, setFile] = useState(null);
   const [value, setValue] = useState("");
+  const [imgList, setImgList] = useState([]);
+
+  const imageListRef = ref(storage, "images/");
 
   const upload = async () => {
     try {
-      const formData = new FormData();
-      formData.append("file", file);
-      const res = await axios.post(
-        `${import.meta.env.VITE_baseURL}/post/upload`,
-        formData,
-        {
-          withCredentials: true,
-        }
-      );
-      console.log(res.data);
-      return res.data;
+      if (file == null) return;
+      const imageRef = ref(storage, `images/${file.name + v4()}`);
+      const res = await uploadBytes(imageRef, file);
+      console.log(res);
     } catch (error) {
       toast.error("Upload an image!");
     }
   };
+
+  useEffect(() => {
+    const fetchImageList = async () => {
+      try {
+        const images = await listAll(imageListRef);
+        console.log(images);
+        images.items.forEach((item) => {
+          getDownloadURL(item).then((url) => {
+            setImgList((prev) => [...prev, url]);
+          });
+        });
+        console.log(imgList.map((url)=>console.log(url)));
+      } catch (error) {
+        console.error("Error fetching images:", error.message);
+      }
+    };
+    fetchImageList();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

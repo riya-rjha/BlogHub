@@ -6,7 +6,8 @@ import multer from "multer";
 import path from "path";
 
 const app = express();
-app.use(express.static("public"));
+
+// app.use(express.static("public"));
 
 const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -24,22 +25,22 @@ const verifyToken = (req, res, next) => {
 
 const postRouter = express.Router();
 
-const storage = multer.diskStorage({
-  destination: function (_, __, cb) {
-    cb(null, path.resolve("../Client/public/Images"));
-  },
-  filename: function (_, file, cb) {
-    const filename = `${Date.now()}-${file.originalname}`;
-    cb(null, filename);
-  },
-});
+// const storage = multer.diskStorage({
+//   destination: function (_, __, cb) {
+//     cb(null, path.resolve("../Client/public/Images"));
+//   },
+//   filename: function (_, file, cb) {
+//     const filename = `${Date.now()}-${file.originalname}`;
+//     cb(null, filename);
+//   },
+// });
 
-const upload = multer({ storage: storage });
-// Upload file endpoint
-postRouter.post("/upload", upload.single("file"), function (req, res) {
-  const file = req.file;
-  res.status(200).json(file.filename);
-});
+// const upload = multer({ storage: storage });
+// // Upload file endpoint
+// postRouter.post("/upload", upload.single("file"), function (req, res) {
+//   const file = req.file;
+//   res.status(200).json(file.filename);
+// });
 
 // Post a blog
 postRouter.post("/", async (req, res) => {
