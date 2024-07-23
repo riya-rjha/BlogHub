@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import.meta.env.VITE_baseURL;
 import { toast } from "react-toastify";
-import sourceImg from "../img/RRJ-logo.png";
-import { storage } from "../Components/firebase.js";
-import { ref, uploadBytes, listAll, getDownloadURL } from "firebase/storage";
-import { v4 } from "uuid";
 
 const Write = () => {
   const navigate = useNavigate();
@@ -17,58 +12,28 @@ const Write = () => {
   const [cat, setCat] = useState("");
   const [file, setFile] = useState(null);
   const [value, setValue] = useState("");
-  const [imgList, setImgList] = useState([]);
-  const [url, setUrl] = useState("");
-
-  const imageListRef = ref(storage, "images/");
-
-  const upload = async () => {
-    try {
-      if (file == null) return;
-      const imageRef = ref(storage, `images/${file.name + v4()}`);
-      const res = await uploadBytes(imageRef, file);
-      const img_url = await getDownloadURL(imageRef);
-      setUrl(img_url);
-      console.log(url);
-    } catch (error) {
-      toast.error("Upload an image!");
-    }
-  };
-
-  useEffect(() => {
-    const fetchImageList = async () => {
-      try {
-        const images = await listAll(imageListRef);
-        const urls = await Promise.all(
-          images.items.map((item) => getDownloadURL(item))
-        );
-        setImgList(urls);
-      } catch (error) {
-        console.error("Error fetching images:", error.message);
-      }
-    };
-    fetchImageList();
-  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const imgUrl = file ? await upload() : "";
     try {
       if (!title) {
         toast.error("Add title of Blog");
+        return;
       }
       if (!cat) {
         toast.error("Select category of Blog");
+        return;
       }
       if (value.length > 7000) {
-        toast.error("Blog description can be upto 700 words");
+        toast.error("Blog description can be up to 7000 characters");
+        return;
       }
       const res = await axios.post(
         `${import.meta.env.VITE_baseURL}/post/`,
         {
           title,
           desc: value,
-          img: imgUrl ? imgUrl : sourceImg,
+          img: selectedImage,
           cat,
         },
         {
@@ -98,12 +63,12 @@ const Write = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
-          <div className="writing-tools mb-4 border border-gray-300 rounded shadow-sm ">
+          <div className="writing-tools mb-4 border border-gray-300 rounded shadow-sm">
             <ReactQuill
               value={value}
               onChange={setValue}
               theme="snow"
-              className="w-full resize-none border border-gray-300 rounded "
+              className="w-full resize-none border border-gray-300 rounded"
             />
           </div>
         </div>
@@ -150,24 +115,21 @@ const Write = () => {
           <div className="category-box p-6 border border-gray-300 rounded shadow-sm bg-white">
             <h3 className="text-2xl font-bold mb-4">Categories</h3>
             <div className="flex flex-col">
-              {["art", "science", "technology", "cinema", "design", "food"].map(
-                (category) => (
-                  <div className="mb-2 flex items-center" key={category}>
-                    <input
-                      type="radio"
-                      id={category}
-                      value={category}
-                      onChange={(e) => setCat(e.target.value)}
-                      className="mr-2"
-                    />
-                    <label htmlFor={category} className="ml-2 capitalize">
-                      {category}
-                    </label>
-                  </div>
-                )
-              )}
+                <div className="mb-2 flex items-center" key={category}>
+                  <input
+                    type="radio"
+                    id={category}
+                    value={category}
+                    onChange={(e) => setCat(e.target.value)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={category} className="ml-2 capitalize">
+                    {category}
+                  </label>
+                </div>
             </div>
           </div>
+          
         </div>
       </div>
     </div>

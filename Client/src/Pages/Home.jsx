@@ -6,9 +6,6 @@ import parse from "html-react-parser";
 import Loading from "../Components/Loading";
 import { toast } from "react-toastify";
 import { AuthorizationContext } from "../Context/authContext";
-import { storage } from "../Components/firebase.js";
-import sourceImg from "../img/RRJ-logo.png";
-import { listAll, getDownloadURL, ref } from "firebase/storage";
 
 const Home = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,9 +14,6 @@ const Home = () => {
   const [visibleBlogs, setVisibleBlogs] = useState(6);
   const [search, setSearch] = useState("");
   const [filteredBlogs, setFilteredBlogs] = useState([]);
-  const [imgList, setImgList] = useState([]);
-
-  const imageListRef = ref(storage, "images/");
 
   const cat = useLocation().search;
 
@@ -38,22 +32,6 @@ const Home = () => {
     [search],
     [allBlogs]
   );
-
-  useEffect(() => {
-    const fetchImageList = async () => {
-      try {
-        const images = await listAll(imageListRef);
-        const urls = await Promise.all(
-          images.items.map((item) => getDownloadURL(item))
-        );
-        console.log(urls);
-        setImgList(urls);
-      } catch (error) {
-        console.error("Error fetching images:", error.message);
-      }
-    };
-    fetchImageList();
-  }, []);
 
   useEffect(() => {
     const getBlogs = async () => {
@@ -153,14 +131,12 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                      {imgList.map((url) => (
                         <img
-                          key={url}
-                          src={url}
+                          key={blog._id}
+                          src={blog.img}
                           alt={blog.title}
                           className="w-full md:mx-auto rounded shadow-lg"
                         />
-                      ))}
                     </div>
                   </div>
                 ))
@@ -201,17 +177,12 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                      {imgList.map((url) => {
-                        console.log(url);
-                        return (
                           <img
-                            key={url}
-                            src={url}
+                            key={blog._id}
+                            src={blog.img}
                             alt={blog.title}
                             className="w-full md:mx-auto rounded shadow-lg"
                           />
-                        );
-                      })}
                     </div>
                   </div>
                 ))
