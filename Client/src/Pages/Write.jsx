@@ -103,6 +103,21 @@ const Write = () => {
         { url: "../img/food/food-10.avif" },
       ],
     },
+    {
+      name: "others",
+      images: [
+        { url: "../img/others/other-1.avif" },
+        { url: "../img/others/other-2.avif" },
+        { url: "../img/others/other-3.avif" },
+        { url: "../img/others/other-4.avif" },
+        { url: "../img/others/other-5.avif" },
+        { url: "../img/others/other-6.avif" },
+        { url: "../img/others/other-7.avif" },
+        { url: "../img/others/other-8.avif" },
+        { url: "../img/others/other-9.avif" },
+        { url: "../img/others/other-10.avif" },
+      ],
+    },
   ];
 
   const handleSubmit = async (e) => {
@@ -121,20 +136,23 @@ const Write = () => {
         return;
       }
       const randomNumber = Math.floor(Math.random() * 10) + 1;
-      console.log(randomNumber);
+      const otherRandomNo = Math.floor(Math.random() * 20) + 1;
+      // console.log(randomNumber);
 
       const categoryObj = array_of_img.find(
         (category) => category.name === cat
       );
-      console.log(categoryObj);
+
       const selectedImage = categoryObj.images[randomNumber].url;
+
+      const otherSelectedImage = categoryObj.images[otherRandomNo].url;
 
       const res = await axios.post(
         `${import.meta.env.VITE_baseURL}/post/`,
         {
           title,
           desc: value,
-          img: selectedImage,
+          img: cat === "others" ? otherSelectedImage : selectedImage,
           cat,
         },
         {
@@ -144,7 +162,7 @@ const Write = () => {
       navigate("/");
       return res.data;
     } catch (error) {
-      toast.error("Blog could not be uploaded, check all fields!");
+      toast("Double click to submit blog!");
       console.error(error.message);
     }
   };
@@ -195,23 +213,29 @@ const Write = () => {
           <div className="category-box p-6 border border-gray-300 rounded shadow-sm bg-white">
             <h3 className="text-2xl font-bold mb-4">Categories</h3>
             <div className="flex flex-col">
-              {["art", "science", "technology", "cinema", "fiction", "food", "others"].map(
-                (category) => (
-                  <div className="mb-2 flex items-center" key={category}>
-                    <input
-                      type="radio"
-                      name="same"
-                      id={category}
-                      value={category}
-                      onChange={(e) => setCat(e.target.value)}
-                      className="mr-2"
-                    />
-                    <label htmlFor={category} className="ml-2 capitalize">
-                      {category}
-                    </label>
-                  </div>
-                )
-              )}
+              {[
+                "art",
+                "science",
+                "technology",
+                "cinema",
+                "fiction",
+                "food",
+                "others",
+              ].map((category) => (
+                <div className="mb-2 flex items-center" key={category}>
+                  <input
+                    type="radio"
+                    name="same"
+                    id={category}
+                    value={category}
+                    onChange={(e) => setCat(e.target.value)}
+                    className="mr-2"
+                  />
+                  <label htmlFor={category} className="ml-2 capitalize">
+                    {category}
+                  </label>
+                </div>
+              ))}
             </div>
           </div>
         </div>

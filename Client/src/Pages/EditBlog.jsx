@@ -94,10 +94,6 @@ const EditBlog = () => {
     }
   };
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
   return (
     <div className="container mx-auto p-6 bg-gray-100">
       <div className="flex flex-col md:flex-row my-8">
@@ -147,9 +143,6 @@ const EditBlog = () => {
               </div>
             )}
             <div className="flex mt-6">
-              <button className="hover:bg-gray-600 transition delay-75 w-1/2 mr-2 py-2 bg-gray-500 text-white rounded shadow-sm">
-                Save as Draft
-              </button>
               <button
                 className="hover:bg-green-600 transition delay-75 w-1/2 ml-2 py-2 bg-green-500 text-white rounded shadow-sm"
                 onClick={handleSubmit}
