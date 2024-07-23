@@ -14,6 +14,7 @@ const Single = () => {
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [writer, setWriter] = useState("");
+  const [imgReceived, setImgReceived] = useState("");
 
   const { userId, currentUser } = useContext(AuthorizationContext);
 
@@ -33,6 +34,8 @@ const Single = () => {
           }
         );
         setPost(res.data);
+        setImgReceived(res.data.img);
+        console.log(imgReceived);
       } catch (error) {
         console.log("Post could not be fetched");
       } finally {
@@ -80,17 +83,15 @@ const Single = () => {
         <div className="my-8">
           <div className="p-4">
             <img
-              src={
-                post.img !== undefined
-                  ? `../Images/${post.img}`
-                  : "https://img.freepik.com/free-photo/social-media-networking-online-communication-connect-concept_53876-124862.jpg?ga=GA1.1.224769648.1717002388&semt=sph"
-              }
+              src={imgReceived}
               alt="blog"
               className="w-full rounded shadow-lg mb-4"
             />
             <div className="flex items-center mb-4">
               <img
-                src={"https://cdn-icons-png.freepik.com/256/7977/7977760.png?ga=GA1.1.448448890.1721050418&semt=ais_hybrid"}
+                src={
+                  "https://cdn-icons-png.freepik.com/256/7977/7977760.png?ga=GA1.1.448448890.1721050418&semt=ais_hybrid"
+                }
                 alt="user"
                 className="w-12 h-12 rounded-full mr-4"
               />

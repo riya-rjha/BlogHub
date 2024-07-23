@@ -10,8 +10,100 @@ const Write = () => {
 
   const [title, setTitle] = useState("");
   const [cat, setCat] = useState("");
-  const [file, setFile] = useState(null);
   const [value, setValue] = useState("");
+
+  const array_of_img = [
+    {
+      name: "art",
+      images: [
+        { url: "../img/art-1.avif" },
+        { url: "../img/art-2.avif" },
+        { url: "../img/art-3.avif" },
+        { url: "../img/art-4.avif" },
+        { url: "../img/art-5.avif" },
+        { url: "../img/art-6.avif" },
+        { url: "../img/art-7.avif" },
+        { url: "../img/art-8.avif" },
+        { url: "../img/art-9.avif" },
+        { url: "../img/art-10.avif" },
+      ],
+    },
+    {
+      name: "science",
+      images: [
+        { url: "../img/science-1.avif" },
+        { url: "../img/science-2.avif" },
+        { url: "../img/science-3.avif" },
+        { url: "../img/science-4.avif" },
+        { url: "../img/science-5.avif" },
+        { url: "../img/science-6.avif" },
+        { url: "../img/science-7.avif" },
+        { url: "../img/science-8.avif" },
+        { url: "../img/science-9.avif" },
+        { url: "../img/science-10.avif" },
+      ],
+    },
+    {
+      name: "technology",
+      images: [
+        { url: "../img/technology-1.avif" },
+        { url: "../img/technology-2.avif" },
+        { url: "../img/technology-3.avif" },
+        { url: "../img/technology-4.avif" },
+        { url: "../img/technology-5.avif" },
+        { url: "../img/technology-6.avif" },
+        { url: "../img/technology-7.avif" },
+        { url: "../img/technology-8.avif" },
+        { url: "../img/technology-9.avif" },
+        { url: "../img/technology-10.avif" },
+      ],
+    },
+    {
+      name: "cinema",
+      images: [
+        { url: "../img/cinema-1.avif" },
+        { url: "../img/cinema-2.avif" },
+        { url: "../img/cinema-3.avif" },
+        { url: "../img/cinema-4.avif" },
+        { url: "../img/cinema-5.avif" },
+        { url: "../img/cinema-6.avif" },
+        { url: "../img/cinema-7.avif" },
+        { url: "../img/cinema-8.avif" },
+        { url: "../img/cinema-9.avif" },
+        { url: "../img/cinema-10.avif" },
+      ],
+    },
+    {
+      name: "design",
+      images: [
+        { url: "../img/design-1.avif" },
+        { url: "../img/design-2.avif" },
+        { url: "../img/design-3.avif" },
+        { url: "../img/design-4.avif" },
+        { url: "../img/design-5.avif" },
+        { url: "../img/design-6.avif" },
+        { url: "../img/design-7.avif" },
+        { url: "../img/design-8.avif" },
+        { url: "../img/design-9.avif" },
+        { url: "../img/design-10.avif" },
+      ],
+    },
+    {
+      name: "food",
+      images: [
+        { url: "../img/food-1.avif" },
+        { url: "../img/food-2.avif" },
+        { url: "../img/food-3.avif" },
+        { url: "../img/food-4.avif" },
+        { url: "../img/food-5.avif" },
+        { url: "../img/food-6.avif" },
+        { url: "../img/food-7.avif" },
+        { url: "../img/food-8.avif" },
+        { url: "../img/food-9.avif" },
+        { url: "../img/food-10.avif" },
+      ],
+    },
+  ];
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,6 +120,15 @@ const Write = () => {
         toast.error("Blog description can be up to 7000 characters");
         return;
       }
+      const randomNumber = Math.floor(Math.random() * 10) + 1;
+      console.log(randomNumber);
+
+      const categoryObj = array_of_img.find(
+        (category) => category.name === cat
+      );
+      console.log(categoryObj);
+      const selectedImage = categoryObj.images[randomNumber].url;
+
       const res = await axios.post(
         `${import.meta.env.VITE_baseURL}/post/`,
         {
@@ -44,12 +145,8 @@ const Write = () => {
       return res.data;
     } catch (error) {
       toast.error("Blog could not be uploaded, check all fields!");
-      console.log(error.message);
+      console.error(error.message);
     }
-  };
-
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
   };
 
   return (
@@ -81,55 +178,42 @@ const Write = () => {
             <p className="mb-4">
               <span className="font-semibold">Visibility:</span> Public
             </p>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id="file"
-              onChange={handleFileChange}
-            />
-            <label
-              htmlFor="file"
-              className="block w-full hover:bg-blue-600 transition delay-75 mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer text-center"
-            >
-              Upload Image
-            </label>
 
-            {file && (
-              <div className="mt-4">
-                <img
-                  src={URL.createObjectURL(file)}
-                  alt="Uploaded"
-                  className="w-full h-auto rounded"
-                />
-              </div>
-            )}
-            <div className="flex mt-6 w-full">
+            <div className="flex flex-col mt-6 w-full">
               <button
-                className="hover:bg-green-600 transition delay-75 w-full ml-2 py-2 bg-green-500 text-white rounded shadow-sm"
+                className="hover:bg-green-600 transition delay-75 w-full py-2 bg-green-500 text-white rounded shadow-sm"
                 onClick={handleSubmit}
               >
                 Publish
               </button>
+              <h1 className="mt-4 text-green-900">
+                Your image will be chosen at random according to the category
+                you choose.
+              </h1>
             </div>
           </div>
           <div className="category-box p-6 border border-gray-300 rounded shadow-sm bg-white">
             <h3 className="text-2xl font-bold mb-4">Categories</h3>
             <div className="flex flex-col">
-                <div className="mb-2 flex items-center" key={category}>
-                  <input
-                    type="radio"
-                    id={category}
-                    value={category}
-                    onChange={(e) => setCat(e.target.value)}
-                    className="mr-2"
-                  />
-                  <label htmlFor={category} className="ml-2 capitalize">
-                    {category}
-                  </label>
-                </div>
+              {["art", "science", "technology", "cinema", "design", "food"].map(
+                (category) => (
+                  <div className="mb-2 flex items-center" key={category}>
+                    <input
+                      type="radio"
+                      name="same"
+                      id={category}
+                      value={category}
+                      onChange={(e) => setCat(e.target.value)}
+                      className="mr-2"
+                    />
+                    <label htmlFor={category} className="ml-2 capitalize">
+                      {category}
+                    </label>
+                  </div>
+                )
+              )}
             </div>
           </div>
-          
         </div>
       </div>
     </div>

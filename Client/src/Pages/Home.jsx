@@ -26,7 +26,7 @@ const Home = () => {
 
       filteredResults.map((_) => {
         const searchedTitleKeyword = document.getElementById("titleBlog");
-        console.log(searchedTitleKeyword);
+        // console.log(searchedTitleKeyword);
       });
     },
     [search],
@@ -131,12 +131,13 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                        <img
-                          key={blog._id}
-                          src={blog.img}
-                          alt={blog.title}
-                          className="w-full md:mx-auto rounded shadow-lg"
-                        />
+                      {console.log(blog.img)}
+                      <img
+                        key={blog._id}
+                        src={blog.img}
+                        alt={blog.title}
+                        className="w-full md:mx-auto rounded shadow-lg"
+                      />
                     </div>
                   </div>
                 ))
@@ -177,12 +178,12 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                          <img
-                            key={blog._id}
-                            src={blog.img}
-                            alt={blog.title}
-                            className="w-full md:mx-auto rounded shadow-lg"
-                          />
+                      <img
+                        key={blog._id}
+                        src={blog.img}
+                        alt={blog.title}
+                        className="w-full md:mx-auto rounded shadow-lg"
+                      />
                     </div>
                   </div>
                 ))

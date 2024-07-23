@@ -29,7 +29,6 @@ postRouter.post("/", async (req, res) => {
     const userData = jwt.verify(token, process.env.jwt_secretKey);
     const newBlog = new blogModel({
       ...req.body,
-      img: req.body.img,
       uid: userData.id,
     });
     await newBlog.save();
