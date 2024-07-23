@@ -127,19 +127,6 @@ const EditBlog = () => {
             <p className="mb-4">
               <span className="font-semibold">Visibility:</span> Public
             </p>
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id="file"
-              name=""
-              onChange={handleFileChange}
-            />
-            <label
-              htmlFor="file"
-              className="block w-full hover:bg-blue-600 transition delay-75 mt-4 py-2 bg-blue-500 text-white rounded cursor-pointer text-center"
-            >
-              Upload Image
-            </label>
 
             {prevImg && !file && (
               <div className="mt-4">
@@ -174,7 +161,7 @@ const EditBlog = () => {
           <div className="category-box p-6 border border-gray-300 rounded shadow-sm bg-white">
             <h3 className="text-2xl font-bold mb-4">Categories</h3>
             <div className="flex flex-col">
-              {["art", "science", "technology", "cinema", "design", "food"].map(
+              {["art", "science", "technology", "cinema", "fiction", "food"].map(
                 (category) => (
                   <div className="mb-2 flex items-center" key={category}>
                     <input

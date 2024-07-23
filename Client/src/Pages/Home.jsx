@@ -131,7 +131,6 @@ const Home = () => {
                       </div>
                     </div>
                     <div className="md:w-1/2 p-4 order-1 md:order-2">
-                      {console.log(blog.img)}
                       <img
                         key={blog._id}
                         src={blog.img}

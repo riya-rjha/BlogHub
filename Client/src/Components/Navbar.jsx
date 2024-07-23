@@ -56,16 +56,19 @@ const Navbar = () => {
                   Cinema
                 </Link>
                 <Link
-                  to="/?cat=design"
+                  to="/?cat=fiction"
                   className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline   hide-links    "
                 >
-                  Design
+                  Fiction
                 </Link>
                 <Link
                   to="/?cat=food"
                   className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline hide-links"
                 >
                   Food
+                </Link>
+                <Link to="/?cat=others" className="text-[#17002A] hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-lg font-bold hover:underline hide-links cursor-pointer">
+                  Others
                 </Link>
               </div>
             </div>
@@ -80,7 +83,9 @@ const Navbar = () => {
                       <MdAccountCircle className="text-gray-800 text-2xl" />
                     </div>
                     {currentUser.username ? (
-                      <h1>{currentUser.username.split(' ')[0].toUpperCase()}</h1>
+                      <h1>
+                        {currentUser.username.split(" ")[0].toUpperCase()}
+                      </h1>
                     ) : (
                       <h1>User</h1>
                     )}
